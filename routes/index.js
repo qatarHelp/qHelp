@@ -114,6 +114,7 @@ router.post('/login', function(req,res,next){
 
 		req.getConnection(function(err, conn){
 			if(err){
+				console.log("get fucked");
 				console.error('SQL Connection error: ', err);
 				return next(err);
 			}

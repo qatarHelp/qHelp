@@ -14,11 +14,26 @@ var users = require('./routes/users');
 
 var app = express();
 
+// var con = mysql.createConnection({
+//   host: "mysql-multi-03.qatar.cmu.local",
+//   user: "manees",
+//   password: "initial",
+//   database : 'qHelpData',
+//   port: "3325"
+// });
+
+// con.connect(function(err) {
+//   if (err){ console.log("asdasdasdasdasdasdasdadadasdasdadasdas"); 
+//     throw err;
+//   } 
+//   console.log("Connected!");
+// });
 app.use(connection(mysql, {
-	host     : 'localhost',
-    user     : 'root',
-    password : 'Jingalalaka', 
-    database : 'myapp',
+	  host     : 'mysql-multi-03.qatar.cmu.local',
+    user     : 'manees',
+    password : 'initial', 
+    database : 'qHelpData',
+    port     : '3325'
 }, 'request'));
 
 
