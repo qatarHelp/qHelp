@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+	<h1>SignUp As A User Here</h1>
+
+	<form method = "post" action = "/addUser">
+		<fieldset>
+			<legend></legend>
+			<label>Email: </label>
+			<input type = "text" name = "uEmail" id = "uEmail" placeholder = "some@some.com"><br>
+			<label>Password: </label>
+			<input type = "text" name = "uPass" id = "uPass" placeholder = "***********"><br>
+			<label>Full Name: </label>
+			<input type = "text" name = "uName" id = "uName" placeholder = "Andrew Iqbal"><br>
+			<label>Age: </label>
+			<input type = "number" name = "uAge" id = "uAge" placeholder = "1009"><br>
+
+			<br>
+	        <button type = "submit" id="submitDetails"  name="submitDetails">Signup</button>
+	      
+		</fieldset>
+	</form>
+
+	<br>
+	<br>
+
+	<button onclick = "backToLogin()" >Go Back</button>
+	
+	
+
+<!--
+	<p>My paragraph.</p>
+	<li><a href ="./showSup">Sup Page</a></li>
+	<button onclick = "duck()">Click</button> -->
+
+	<script src = "./javascripts/fun.js"> </script>
+</body>
+
+</html>
