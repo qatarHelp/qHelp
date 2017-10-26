@@ -148,6 +148,10 @@ router.post('/login', function(req,res,next){
 	}
 });
 
+router.get('/aboutUs', function(req,res,next){
+	res.render('AboutUs.ejs',{'root': __dirname + '/../views'});
+});
+
 // db.query(sql, function(err, results){      
 //          if(results.length){
 //             req.session.userId = results[0].id;
