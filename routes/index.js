@@ -152,6 +152,10 @@ router.get('/aboutUs', function(req,res,next){
 	res.render('AboutUs.ejs',{'root': __dirname + '/../views'});
 });
 
+router.get('/faqPage', function(req,res,next){
+	res.render('faq.ejs',{'root': __dirname + '/../views'});
+});
+
 // db.query(sql, function(err, results){      
 //          if(results.length){
 //             req.session.userId = results[0].id;
