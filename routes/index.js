@@ -10,6 +10,7 @@ router.get('/',function(req,res){
     res.sendFile('home.html',{'root': __dirname + '/../views'});
 });
 
+
 router.get('/userSignup',function(req,res){
     res.sendFile('userSignup.html',{'root': __dirname + '/../views'});
 });
@@ -155,6 +156,11 @@ router.get('/aboutUs', function(req,res,next){
 router.get('/faqPage', function(req,res,next){
 	res.render('faq.ejs',{'root': __dirname + '/../views'});
 });
+
+router.get('/main',function(req,res){
+    res.sendFile('main.html',{'root': __dirname + '/../views'});
+});
+
 
 // db.query(sql, function(err, results){      
 //          if(results.length){
