@@ -21,5 +21,16 @@ create table business (
     primary key    (email)
 );
 
+
+/*create table request (
+    id                int unsigned unique NOT NULL auto_increment,
+    service             varchar(150) unique not null,
+    location        varchar(150) not null,
+    btime        varchar(200) not null,
+    price    int unsigned not null,
+    primary key    (email)
+);*/
+
+
 select * from business;
 select * from user;
