@@ -161,6 +161,13 @@ router.get('/main',function(req,res){
     res.sendFile('main.html',{'root': __dirname + '/../views'});
 });
 
+router.get('/userhome',function(req,res){
+    res.sendFile('userhome.html',{'root': __dirname + '/../views'});
+});
+
+router.get('/businesshome',function(req,res){
+    res.sendFile('businesshome.html',{'root': __dirname + '/../views'});
+});
 
 // db.query(sql, function(err, results){      
 //          if(results.length){
