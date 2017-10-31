@@ -21,6 +21,34 @@ router.get('/businessSignup',function(req,res){
     res.sendFile('businessSignup.html',{'root': __dirname + '/../views'});
 });
 
+router.post('/login', function(req, res, next){
+	try{
+		var email = req.body.uEmail;
+		var pass = req.body.uPass;
+
+		let sql = `SELECT password FROM login
+					WHERE email = ?`;
+
+		db.all(sql, [email], (err, rows) => {
+			if (err){
+				return console.log("SQLite Error YO=" + err);
+			}
+			if (rows == 0){
+				console.log("No such user");
+			}
+			else{
+				console.log(rows[0].password);
+				var message = "It worked";
+				res.render('home.ejs', {message: message});
+			}
+		});
+	}
+	catch(ex){
+		console.error("Internal error:"+ex);
+		return next(ex);
+	}
+});
+
 router.post('/addUser', function(req,res,next){
 	try{
 
@@ -107,47 +135,47 @@ router.post('/addBusiness', function(req,res,next){
 	}
 });
 
-router.post('/login', function(req,res,next){
-	try{
+// router.post('/login', function(req,res,next){
+// 	try{
 
-		var email = req.body.uEmail;
-		var pass = req.body.uPass;
+// 		var email = req.body.uEmail;
+// 		var pass = req.body.uPass;
 
-		req.getConnection(function(err, conn){
-			if(err){
-				console.log("get fucked");
-				console.error('SQL Connection error: ', err);
-				return next(err);
-			}
-			else{
-				var insertSql = "SELECT id, email, fullname, age FROM user WHERE `email`='"+email+"' and bpassword = '"+pass+"';";
+// 		req.getConnection(function(err, conn){
+// 			if(err){
+// 				console.log("get fucked");
+// 				console.error('SQL Connection error: ', err);
+// 				return next(err);
+// 			}
+// 			else{
+// 				var insertSql = "SELECT id, email, fullname, age FROM user WHERE `email`='"+email+"' and bpassword = '"+pass+"';";
 				
-				var query = conn.query(insertSql, function (err, result){
-					if(err){
-						console.error('SQL error: ', err);
-						return next(err);
-					}
+// 				var query = conn.query(insertSql, function (err, result){
+// 					if(err){
+// 						console.error('SQL error: ', err);
+// 						return next(err);
+// 					}
 					
-					if (result.length){
-						res.json({"Id: ": result[0].id})
-					}
-					else{
-						message = 'Wrong Credentials.';
-           				res.render('home.ejs',{message: message});
-					}
-					// console.log(result);
-					// var Employee_Id = result.insertId;
-					// res.json({"B_ID": Employee_Id});
-					// res.redirect('/');
-				});
-			}
-		});
-	}
-	catch(ex){
-		console.error("Internal error:"+ex);
-		return next(ex);
-	}
-});
+// 					if (result.length){
+// 						res.json({"Id: ": result[0].id})
+// 					}
+// 					else{
+// 						message = 'Wrong Credentials.';
+//            				res.render('home.ejs',{message: message});
+// 					}
+// 					// console.log(result);
+// 					// var Employee_Id = result.insertId;
+// 					// res.json({"B_ID": Employee_Id});
+// 					// res.redirect('/');
+// 				});
+// 			}
+// 		});
+// 	}
+// 	catch(ex){
+// 		console.error("Internal error:"+ex);
+// 		return next(ex);
+// 	}
+// });
 
 router.get('/aboutUs', function(req,res,next){
 	res.render('AboutUs.ejs',{'root': __dirname + '/../views'});

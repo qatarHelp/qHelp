@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var connection = require('express-myconnection');
 
+const sqlite3 = require('sqlite3').verbose();
+var db = require('./sql/db_manage.js');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 //var fun = require('./public/javascripts/fun.js');
@@ -28,13 +31,13 @@ var app = express();
 //   } 
 //   console.log("Connected!");
 // });
-app.use(connection(mysql, {
-	  host     : 'mysql-multi-03.qatar.cmu.local',
-    user     : 'manees',
-    password : 'initial', 
-    database : 'qHelpData',
-    port     : '3325'
-}, 'request'));
+// app.use(connection(mysql, {
+// 	  host     : 'mysql-multi-03.qatar.cmu.local',
+//     user     : 'manees',
+//     password : 'initial', 
+//     database : 'qHelpData',
+//     port     : '3325'
+// }, 'request'));
 
 
 // view engine setup
