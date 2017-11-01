@@ -9,16 +9,66 @@ var db = new sqlite3.Database('./db/qhelp.db', (err) => {
 
 db.serialize(function(){
 
-
-
-//********************************** Creating Table Example ***********************************************//
-
-	// db.run("CREATE TABLE IF NOT EXISTS login (email TEXT, password TEXT)", [], function(err){
+	// db.run(`CREATE TABLE IF NOT EXISTS customer (
+	// 		email TEXT NOT NULL UNIQUE PRIMARY KEY, 
+	// 		password TEXT NOT NULL,
+	// 		first_name TEXT NOT NULL,
+	// 		last_name TEXT NOT NULL,
+	// 		address TEXT NOT NULL,
+	// 		phone_no INTEGER UNIQUE NOT NULL,
+	// 		qid INTEGER UNIQUE NOT NULL,
+	// 		creditcard_no INTEGER UNIQUE,
+	// 		sms BOOLEAN,
+	// 		accountbalance INTEGER NOT NULL)`, [], function(err){
 	// 	if (err){
 	// 		return console.log(err.message);
 	// 	}
-	// 	console.log("Login Table created successfully");
+	// 	console.log("customer Table created successfully");
 	// });
+
+	// db.run(`CREATE TABLE IF NOT EXISTS serviceprovider (
+	// 		email TEXT NOT NULL UNIQUE PRIMARY KEY, 
+	// 		password TEXT NOT NULL,
+	// 		first_name TEXT NOT NULL,
+	// 		last_name TEXT NOT NULL,
+	// 		address TEXT NOT NULL,
+	// 		phone_no INTEGER UNIQUE NOT NULL,
+	// 		qid INTEGER UNIQUE NOT NULL,
+	// 		creditcard_no INTEGER UNIQUE NOT NULL,
+	// 		businesslicense UNIQUE,
+	// 		accountbalance INTEGER NOT NULL)`, [], function(err){
+	// 	if (err){
+	// 		return console.log(err.message);
+	// 	}
+	// 	console.log("serviceprovider Table created successfully");
+	// });
+
+	// db.run(`CREATE TABLE IF NOT EXISTS request (
+	// 	req_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
+	// 	service TEXT UNIQUE NOT NULL,
+	// 	location TEXT NOT NULL,
+	// 	time TEXT NOT NULL,
+	// 	price INTEGER NOT NULL
+	// 	)`, [], function(err){
+
+	// 		if (err){
+	// 			return console.log(err.message);
+	// 		}
+	// 		console.log("request Table created successfully");
+	// 	});
+
+	// db.run(`CREATE TABLE IF NOT EXISTS customer_request (
+	// 	req_id INTEGER NOT NULL UNIQUE,
+	// 	email TEXT NOT NULL,
+	// 	FOREIGN KEY (req_id) REFERENCES request(req_id),
+	// 	FOREIGN KEY (email) REFERENCES customer(email))`, [], function(err){
+
+	// 		if (err){
+	// 		return console.log(err.message);
+	// 	}
+	// 	console.log("customer_request Table created successfully");
+	// 	});
+
 
 
 //****************************** Inserting Example *********************************************************//

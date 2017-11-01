@@ -37,7 +37,7 @@
             <li class="nav-item ">
               <a class="nav-link" href="./faqPage">FAQ</a>
             </li>
-             <li class="nav-item ">
+            <li class="nav-item ">
               <a class="nav-link" href="./">Logout</a>
             </li>
           </ul>
@@ -49,24 +49,31 @@
     <div class="container">
 
       <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3">Welcome to Customer Page </h1>
+      <h1 class="mt-4 mb-3">Welcome to Business Page <%= name %></h1>
 
-      <form method = "post" action = "/request">
-        <fieldset>
-          <legend>I want to request for:</legend>
-          <label>Service: </label>
-          <input type = "text" name = "service" id = "service"  placeholder = "Vanilla caramel Latte"><br>
-          <label>Location: </label>
-          <input type = "text" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation"><br>
-          <label>Deadline Time: </label>
-          <input type = "text" name = "time" id = "deadline"  placeholder = "Today by 12pm"><br>
-          <label>Maximum Price (QR.): </label>
-          <input type = "text" name = "price" id = "price"  placeholder = "50"><br>
-          <br>
-              <button type = "submit" id="submitDetails"  name="submitDetails">Request</button>
-          
-        </fieldset>
-       </form>
+<table>
+  <thead>
+    <tr>
+      <th>Request Name</th>
+      <th>Address</th>
+      <th>Time</th>
+      <th>Price</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+<!-- This is where the requests are rendered !-->
+  <tbody>
+      <tr>
+        <td>Ice cream</td>
+        <td>CMU 1202</td>
+        <td>Before 1:00 am</td>
+        <td>50.0 QR</td>
+      </tr>
+  </tbody>
+</table>
+
+      
 
 
       

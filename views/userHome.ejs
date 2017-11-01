@@ -49,9 +49,10 @@
     <div class="container">
 
       <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3">Welcome to Customer Page </h1>
+      <h1 class="mt-4 mb-3">Welcome to Customer Page <%= name %></h1>
 
-      <form method = "post" action = "/request">
+      <%= message %>
+      <form method = "post" action = "/requestSubmit">
         <fieldset>
           <legend>I want to request for:</legend>
           <label>Service: </label>
@@ -59,9 +60,9 @@
           <label>Location: </label>
           <input type = "text" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation"><br>
           <label>Deadline Time: </label>
-          <input type = "text" name = "time" id = "deadline"  placeholder = "Today by 12pm"><br>
+          <input type = "text" name = "stime" id = "stime"  placeholder = "Today by 12pm"><br>
           <label>Maximum Price (QR.): </label>
-          <input type = "text" name = "price" id = "price"  placeholder = "50"><br>
+          <input type = "number" name = "price" id = "price"  placeholder = "50"><br>
           <br>
               <button type = "submit" id="submitDetails"  name="submitDetails">Request</button>
           
