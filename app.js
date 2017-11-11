@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var connection = require('express-myconnection');
+var session = require('express-session');
 
 const sqlite3 = require('sqlite3').verbose();
 var db = require('./sql/db_manage.js');
@@ -15,33 +16,15 @@ var users = require('./routes/users');
 //var fun = require('./public/javascripts/fun.js');
 
 
-
-
-
 var app = express();
 
-// var con = mysql.createConnection({
-//   host: "mysql-multi-03.qatar.cmu.local",
-//   user: "manees",
-//   password: "initial",
-//   database : 'qHelpData',
-//   port: "3325"
-// });
-
-// con.connect(function(err) {
-//   if (err){ console.log("asdasdasdasdasdasdasdadadasdasdadasdas"); 
-//     throw err;
-//   } 
-//   console.log("Connected!");
-// });
-// app.use(connection(mysql, {
-// 	  host     : 'mysql-multi-03.qatar.cmu.local',
-//     user     : 'manees',
-//     password : 'initial', 
-//     database : 'qHelpData',
-//     port     : '3325'
-// }, 'request'));
-
+//Start sessions
+app.use(session({
+  secret: 'Muhsin is the 5th member.',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 }
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -23,6 +23,8 @@ router.post('/login', function(req, res, next){
 		var email = req.body.uEmail;
 		var pass = req.body.uPass;
 
+		var sess = req.session;
+
 		let sql_user = `SELECT * FROM customer
 					WHERE email = ?`;
 
@@ -45,7 +47,13 @@ router.post('/login', function(req, res, next){
 					var message = "";
 					var name = rows[0].first_name + " " + rows[0].last_name;
 					var user = rows[0];
-					res.render('userHome.ejs', {message: message, name: name, user: user});
+					//req.session.userId = rows[0].id;
+					req.session.email = rows[0].email;
+					req.session.user = rows[0];
+					console.log(req.session.userId);
+					console.log(req.session.user);
+					res.redirect('/userHome');
+					// res.render('userHome.ejs', {message: message, name: name, user: user});
 				}
 				else{
 					res.render('home.ejs', {message: "Seems like it's a wrong password."});
@@ -67,6 +75,8 @@ router.post('/login', function(req, res, next){
 					if (rows[0].password == pass){
 						console.log(rows[0].password);
 						var message = "BusinessLogged in";
+						req.session.bussId = rows[0].id;
+						req.session.buss = rows[0];
 						var name = rows[0].first_name + " " + rows[0].last_name;
 						res.render('businessHome.ejs', {message: message, name: name});
 					}
@@ -202,8 +212,18 @@ router.get('/main',function(req,res){
     res.sendFile('main.html',{'root': __dirname + '/../views'});
 });
 
-router.get('/userhome',function(req,res){
-    res.sendFile('userhome.html',{'root': __dirname + '/../views'});
+router.get('/userHome',function(req,res){
+	var message = 'LogIn successful!!';
+
+	var user =  req.session.user;
+	var userId = req.session.email;
+
+	if (userId == null){
+		res.redirect('/');
+	}
+
+	res.render('userHome.ejs', {name: (user.first_name + ' ' + user.last_name), message: message});
+
 });
 
 router.get('/businesshome',function(req,res){
