@@ -75,10 +75,14 @@ router.post('/login', function(req, res, next){
 					if (rows[0].password == pass){
 						console.log(rows[0].password);
 						var message = "BusinessLogged in";
-						req.session.bussId = rows[0].id;
-						req.session.buss = rows[0];
-						var name = rows[0].first_name + " " + rows[0].last_name;
-						res.render('businessHome.ejs', {message: message, name: name});
+						req.session.bussEmail = rows[0].email;
+						req.session.bussiness = rows[0];
+						console.log(req.session.bussiness);
+
+						res.redirect('/businessHome');
+
+					//	var name = rows[0].first_name + " " + rows[0].last_name;
+						// res.render('businessHome.ejs', {message: message, name: name});
 					}
 					else{
 						res.render('home.ejs', {message: "Seems like it's a wrong password."});
@@ -213,24 +217,42 @@ router.get('/main',function(req,res){
 });
 
 router.get('/userHome',function(req,res){
+
+	
 	var message = 'LogIn successful!!';
 
 	var user =  req.session.user;
 	var userId = req.session.email;
-
+	console.log(userId);
 	if (userId == null){
 		res.redirect('/');
 	}
-
+	res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	res.render('userHome.ejs', {name: (user.first_name + ' ' + user.last_name), message: message});
 
 });
 
 router.get('/businesshome',function(req,res){
-    res.sendFile('businesshome.html',{'root': __dirname + '/../views'});
+
+	var message = 'Login successful';
+
+	var user =  req.session.bussiness;
+	var userId = req.session.bussEmail;
+
+	if (userId == null){
+		res.redirect('/');
+	}
+
+	res.render('businessHome.ejs', {name: (user.first_name + ' ' + user.last_name), message: message})
+
 });
 
-
+router.get('/logout', function(req, res){
+ req.session.destroy(function(err) {
+      console.log("Session ended");
+      res.redirect('/');
+   })
+})
 // router.post('/addUser', function(req,res,next){
 // 	try{
 
