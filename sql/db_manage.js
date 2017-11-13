@@ -117,7 +117,7 @@ db.serialize(function(){
     customer_accepted BOOLEAN,
     serviceprovider_accepted BOOLEAN,
     req_id INTEGER NOT NULL,
-    customer_email TEXT NOT NULL,
+    bid_id INTEGER NOT NULL,
     trans_id INTEGER NOT NULL,
     FOREIGN KEY (req_id) REFERENCES request(req_id),
     FOREIGN KEY (bid_id) REFERENCES bid(bid_id),
