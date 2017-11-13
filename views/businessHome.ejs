@@ -3,30 +3,35 @@
 <html lang="en">
 <head>
 
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Redefining Convenience">
+    <meta name="author" content="Maruf">
 
+    <title>QatarHelp</title>
 
-  <title>QatarHelp</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-   <!-- Bootstrap core CSS -->
-    <link href="./stylesheets/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="./vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./stylesheets/modern-business.css" rel="stylesheet">
+    <link href="./stylesheets/creative.min.css" rel="stylesheet">
 
 </head>
 
+<body id="page-top">
 
-<body>
-
- <!-- Navigation -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top" style="position: relative;">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="position: relative; background-color: #f05f40;">
       <div class="container">
-        <a class="navbar-brand" href="/main">QatarHelp</a>
+        <a class="navbar-brand js-scroll-trigger" href="./main">QatarHelp</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -39,89 +44,79 @@
               <a class="nav-link" href="./faqPage">FAQ</a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link" href="./">Logout</a>
+              <a class="nav-link" href="/logout">Logout</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Page Content -->
-    <div class="container">
+     <!-- Page Heading/Breadcrumbs -->
+      <h1 class="mt-4 mb-3" style="margin-left: 15px;">Welcome to Business Page, <%= name %></h1>
 
-      <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3">Welcome to Business Page <%= name %></h1>
+    <section id="services" style="padding-top: 50px; padding-bottom: 50px;">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-lg-12 text-center">
+                          <h2 class="section-heading">Favorite Categories</h2>
+                          <hr class="my-4">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-6 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                          <a class="btn btn-light2 btn-xl js-scroll-trigger" style="width:214px;height:102px;border-radius:0px;text-align:center;line-height:75px;" href="./repairing">Repairing</a>
 
-<table>
-  <thead>
-    <tr>
-      <th>Request Name</th>
-      <th>Address</th>
-      <th>Time</th>
-      <th>Price</th>
-      <th colspan="4"></th>
-    </tr>
-  </thead>
-
-<!-- This is where the requests are rendered !-->
-  <tbody>
-      <tr>
-        <td>Ice cream</td>
-        <td>CMU 1202</td>
-        <td>Before 1:00 am</td>
-        <td>50.0 QR</td>
-      </tr>
-      <tr>
-        <td>Coffee</td>
-        <td>Janoubi</td>
-        <td>Before 9:00 am</td>
-        <td>25.0 QR</td>
-      </tr>
-  </tbody>
-</table>
-
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Users</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New User', new_user_path %>
-
-      
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                           <a class="btn btn-light2 btn-xl js-scroll-trigger" style="width:214px;height:102px;border-radius:0px;text-align:center;line-height:75px;" href="./painting">Painting</a>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                           <a class="btn btn-light2 btn-xl js-scroll-trigger" style="width:214px;height:102px;border-radius:0px;text-align:center;line-height:75px;" href="./delivery">Delivery</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
 
 
-      
 
-    </div>
-    <!-- /.container -->
+ <section class="bg-primary" style="padding-top: 50px; padding-bottom: 50px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white">All Categories</h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">Explore tasks and chores from all sectors to get more customer</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" style="width:214px;height:102px;border-radius:0px;text-align:center;line-height:75px;" href="./allcategories">Explore All</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; 67-475 Team 2 2017</p>
+    <footer class="text-center" >
+      <div class="footer-above">
+        <div class="container" >
+          
+      <div class="footer-below">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              Copyright &copy; Senior Project 2017
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- /.container -->
+      </div>
+      </div>
     </footer>
 
     <!-- Bootstrap core JavaScript -->

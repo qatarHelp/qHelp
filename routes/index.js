@@ -253,6 +253,53 @@ router.get('/logout', function(req, res){
       res.redirect('/');
    })
 })
+
+//Customer Side Pages
+router.get('/businessbid', function(req,res,next){
+	res.render('businessBid.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/userhistory', function(req,res,next){
+	res.render('userHistory.ejs',{'root': __dirname + '/../views'});
+});
+
+
+
+//categories
+router.get('/allcategories', function(req,res,next){
+	res.render('categories/all.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/delivery', function(req,res,next){
+	res.render('categories/delivery.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/education', function(req,res,next){
+	res.render('categories/education.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/electronics', function(req,res,next){
+	res.render('categories/electronics.ejs',{'root': __dirname + '/../views'});
+});
+router.get('/foodDelivery', function(req,res,next){
+	res.render('categories/foodDelivery.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/others', function(req,res,next){
+	res.render('categories/others.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/painting', function(req,res,next){
+	res.render('categories/painting.ejs',{'root': __dirname + '/../views'});
+});
+router.get('/programming', function(req,res,next){
+	res.render('categories/programming.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/repairing', function(req,res,next){
+	res.render('categories/repairing.ejs',{'root': __dirname + '/../views'});
+});
+
 // router.post('/addUser', function(req,res,next){
 // 	try{
 
