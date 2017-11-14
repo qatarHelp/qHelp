@@ -270,7 +270,25 @@ router.get('/userhistory', function(req,res,next){
 
 //categories
 router.get('/allcategories', function(req,res,next){
-	res.render('categories/all.ejs',{'root': __dirname + '/../views'});
+	message = ''
+	console.log("WERWERWEQR");
+	// console.log(user);
+	// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+	var requests = null;
+
+	let sql = `SELECT * FROM request`;
+
+	db.all(sql, [], function(err, rows){
+		if(err){
+			return console.log(err);
+		}
+
+		requests = rows;
+		console.log(rows);
+		res.render('categories/all.ejs', {message: message, requests: requests});
+
+	})
+	//res.render('categories/all.ejs',{'root': __dirname + '/../views'});
 });
 
 router.get('/delivery', function(req,res,next){

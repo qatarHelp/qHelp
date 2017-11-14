@@ -70,6 +70,7 @@ db.serialize(function(){
 		location TEXT NOT NULL,
 		time TEXT NOT NULL,
 		price INTEGER NOT NULL,
+    status INTEGER NOT NULL,
     category_id INTEGER UNIQUE,
     FOREIGN KEY (category_id) REFERENCES category(category_id)
 		)`, [], function(err){
@@ -79,6 +80,7 @@ db.serialize(function(){
 			}
 			console.log("request Table created successfully");
 		});
+  // IN REQ STATUS 0 is pending 1 is accepted 2 is completed 
 
 	// db.run(`CREATE TABLE IF NOT EXISTS customer_request (
 	// 	req_id INTEGER NOT NULL UNIQUE,
@@ -96,7 +98,8 @@ db.serialize(function(){
     bid_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
     bid_price INTEGER NOT NULL,
     bid_description TEXT,
-    service_email TEXT NOT NULL
+    service_email TEXT NOT NULL,
+    FOREIGN KEY (service_email) REFERENCES serviceprovider(email)
     )`, [], function(err){
       if (err){return console.log(err.message);}
       console.log("bid Table created successfully");}
