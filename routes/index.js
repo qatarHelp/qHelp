@@ -268,7 +268,18 @@ router.get('/userhistory', function(req,res,next){
 
 
 
+
+
 //categories
+
+router.get('/pendingbids', function(req,res,next){
+	res.render('pendingBids.ejs',{'root': __dirname + '/../views'});
+});
+
+router.get('/businesshistory', function(req,res,next){
+	res.render('businessHistory.ejs',{'root': __dirname + '/../views'});
+});
+
 router.get('/allcategories', function(req,res,next){
 	message = ''
 	console.log("WERWERWEQR");
