@@ -255,6 +255,9 @@ router.get('/logout', function(req, res){
 })
 
 //Customer Side Pages
+router.get('/businessreq', function(req,res,next){
+	res.render('businessReq.ejs',{'root': __dirname + '/../views'});
+});
 router.get('/businessbid', function(req,res,next){
 	res.render('businessBid.ejs',{'root': __dirname + '/../views'});
 });
