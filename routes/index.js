@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../sql/db_manage.js");
-
+var $ = require('jquery');
 
 router.get('/',function(req,res){
     res.sendFile('main.html',{'root': __dirname + '/../views'});
@@ -377,7 +377,7 @@ router.get('/userHome',function(req,res){
 	else{
 		message = "";
 	}
-	
+
 	if (userId == null){
 		res.redirect('/');
 	}
@@ -411,7 +411,11 @@ router.get('/logout', function(req, res){
    })
 })
 
+router.get('/viewalloffers', function(req,res,next){
 
+	
+	res.render('view_all_offers.ejs',{'root': __dirname + '/../views'});
+});
 
 //Customer Side Pages
 router.get('/pendingreq', function(req,res,next){
@@ -447,6 +451,11 @@ router.get('/pendingreq', function(req,res,next){
 	}
 });
 
+router.get('/makeBid', function(req,res,next){
+
+	
+	res.render('makeBid.ejs',{'root': __dirname + '/../views'});
+});
 
 router.get('/businessbid', function(req,res,next){
 	res.render('businessBid.ejs',{'root': __dirname + '/../views'});

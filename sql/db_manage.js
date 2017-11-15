@@ -98,9 +98,7 @@ db.serialize(function(){
     bid_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
     bid_price INTEGER NOT NULL,
     bid_description TEXT,
-    bid_status INTEGER NOT NULL,
-    service_email TEXT NOT NULL,
-    FOREIGN KEY (service_email) REFERENCES serviceprovider(email)
+    bid_status INTEGER NOT NULL
     )`, [], function(err){
       if (err){return console.log(err.message);}
       console.log("bid Table created successfully");}
