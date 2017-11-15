@@ -3,7 +3,7 @@
 // var mysql = require('mysql');
 // //var mysql = remote.getGlobal('mysql');
 
-
+var db = require ("../../sql/db_manage.js");
 // var connection = mysql.createConnection({
 //         host     : 'localhost',
 //         user     : 'root',
@@ -22,7 +22,42 @@
 //         }
 //     });
 
+function submitRequest(){
+    try{
+        var service = req.body.service;
+        var location = req.body.location;
+        if (location == ""){
+            location = null;
+        }
+        var time = req.body.stime;
+        var price = req.body.price;
+        var req_status = 0;
+        var category_id = req.body.cats;
 
+        console.log(req.session.user);
+
+        if (category_id == null) category_id = 8;
+        console.log(category_id);
+
+        let sql = `INSERT INTO request (
+        service, location, time, price, req_status, category_id) 
+        VALUES(?,?,?,?,?,?)`;
+
+        db.run (sql, [service, location, time, price, req_status, category_id], function(err){
+            if (err){
+                return console.log("Insert Request Error: " + err.message);
+            }
+            console.log(service + ` added Successfully with rowid ${this.lastID}`);
+            var message = service + " added successfully.";
+            res.render('userHome,ejs', {message: message});
+        });
+        
+    }
+    catch(ex){
+        console.error("Internal error:"+ex);
+        return next(ex);
+    }
+}
 
 
 

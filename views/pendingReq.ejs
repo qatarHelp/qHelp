@@ -60,51 +60,45 @@
                       <table>
                         <thead>
                           <tr>
-                            <th>Request Name</th>
-                            <th>Address</th>
-                            <th>Time</th>
-                            <th>Price</th>
-                            <th>Bid</th>
-                            <th colspan="4"></th>
+                            <th> Reduest ID </th>
+                            <th> Request Name </th>
+                            <th> Address </th>
+                            <th> Time </th>
+                            <th> Price (QR) </th>
+                            <th> Category </th>
+                            <th> Status </th>
+                            <th colspan="9"></th>
                           </tr>
                         </thead>
 
                       <!-- This is where the requests are rendered !-->
                         <tbody>
+                          <% requests.forEach(function(request){ %>
                             <tr>
-                              <td>Ice cream</td>
-                              <td>CMU 1202</td>
-                              <td>Before 1:00 am</td>
-                              <td>50.0 QR</td>
-                              <td>
-                              <a href="./businessbid">Bids</a>
-                              </td>
+                              <td><%= request.req_id %></td>
+                              <td><%= request.service %></td>
+                              <td><%= request.location %></td>
+                              <td><%= request.time %></td>
+                              <td><%= request.price %></td>
+                              <td><%= request.category %></td>
+                              <% if (request.req_status == 0) { %>
+                                <td>Pending</td>
+                              <% } if (request.req_status == 1) { %>
+                                <td>In Progress</td>
+                              <% } %>
+                              <td><a href="#">Cancel</a></td>
+                              <td><a href="#">View All Offers</a></td>
                             </tr>
-                            <tr>
-                              <td>Coffee</td>
-                              <td>Janoubi</td>
-                              <td>Before 9:00 am</td>
-                              <td>25.0 QR</td>
-                              <td>
-                              <a href="./businessbid">Bids</a>
-                              </td>
-                            </tr>
+                          <% }); %>
                         </tbody>
                       </table>
-
-                      
-
-
+               
                       </div>
                   </section>
 
-
-
-
-
-      
-
-
+                          <% if (message) { %>
+                            <h2><%= message %></h2>
+                          <% } %>
     <!-- Footer -->
     <footer class="text-center" >
       <div class="footer-above">

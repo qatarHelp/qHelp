@@ -147,19 +147,123 @@ router.post('/addBusiness', function(req,res,next){
 		var businesslicense = req.body.uBusinessLicense;
 		var accountbalance = 0;
 
+
+		var delivery = req.body.delivery;
+		var education = req.body.education;
+		var electronic = req.body.electronic;
+		var foodDelivery = req.body.foodDelivery;
+		var painting = req.body.painting;
+		var programming = req.body.programming;
+		var repairing = req.body.repairing;
+		var others =  req.body.others;
+
+		if (delivery == null){ delivery = false}; //1
+		
+		if (education == null) education = false; //2
+
+		if (electronic == null) electronic = false; //3
+
+		if (foodDelivery == null) foodDelivery = false; //4
+		
+		if (painting == null) painting = false; //5
+		
+		if (programming == null) programming = false; //6
+		
+		if (repairing == null) repairing = false; //7
+		
+		if (others == null) others = false; //8
+		
+		console.log(delivery);
+		console.log(education);
+		console.log(electronic);
+		console.log(foodDelivery);
+		console.log(painting);
+		console.log(programming);
+		console.log(repairing);
+		console.log(others);
+
 		let sql = `INSERT INTO serviceprovider (
 		email, password, first_name, last_name, address, phone_no, qid, creditcard_no, businesslicense, accountbalance) 
 		VALUES(?,?,?,?,?,?,?,?,?,?)`;
 
-		db.run (sql, [email, pass, f_name, l_name, address, phone, qid, credit_card, businesslicense, accountbalance], function(err){
-			if (err){
-				return console.log("Insert ServiceProvider Error: " + err.message);
-			}
-			console.log(email + ` added Successfully with rowid ${this.lastID}`);
-			var message = email + " created successfully. Login to continue.";
-			res.render('home.ejs', {message: message});
+
+		let sql0 = `INSERT INTO service_category (category_id, service_email, favorite) 
+		VALUES(?,?,?)`;
+
+		db.serialize(function(){
+			db.run (sql, [email, pass, f_name, l_name, address, phone, qid, credit_card, businesslicense, accountbalance], function(err){
+				if (err){
+					return console.log("Insert ServiceProvider Error: " + err.message);
+				}
+				console.log(email + ` added Successfully with rowid ${this.lastID}`);
+				var message = email + " created successfully. Login to continue.";
+				res.render('home.ejs', {message: message});
+			});
+			if (delivery){
+				db.run(sql0, [1, email, delivery], function(err){
+					if(err){
+						return console.log("Deliver error: " + err.message);
+					}
+					console.log("delivery made fav");
+				});
+			};
+			if (education){
+				db.run(sql0, [2, email, education], function(err){
+					if(err){
+						return console.log("education error: " + err.message);
+					}
+					console.log("education made fav");
+				});
+			};
+			if (electronic){
+				db.run(sql0, [3, email, electronic], function(err){
+					if(err){
+						return console.log("electronic error: " + err.message);
+					}
+					console.log("electronic made fav");
+				});
+			};
+			if (foodDelivery){
+				db.run(sql0, [4, email, foodDelivery], function(err){
+					if(err){
+						return console.log("foodDelivery error: " + err.message);
+					}
+					console.log("foodDelivery made fav");
+				});
+			};
+			if (painting){
+				db.run(sql0, [5, email, painting], function(err){
+					if(err){
+						return console.log("painting error: " + err.message);
+					}
+					console.log("painting made fav");
+				});
+			};
+			if (programming){
+				db.run(sql0, [6, email, programming], function(err){
+					if(err){
+						return console.log("programming error: " + err.message);
+					}
+					console.log("programming made fav");
+				});
+			};
+			if (repairing){
+				db.run(sql0, [7, email, repairing], function(err){
+					if(err){
+						return console.log("repairing error: " + err.message);
+					}
+					console.log("repairing made fav");
+				});
+			};
+			if (delivery){
+				db.run(sql0, [8, email, delivery], function(err){
+					if(err){
+						return console.log("others error: " + err.message);
+					}
+					console.log("others made fav");
+				});
+			};
 		});
-		
 	}
 	catch(ex){
 		console.error("Internal error:"+ex);
@@ -178,19 +282,60 @@ router.post('/requestSubmit', function(req, res, next){
 		}
 		var time = req.body.stime;
 		var price = req.body.price;
-		
+		var req_status = 0;
+		var category_id = req.body.cats;
+
+		var email = req.session.email;
+		console.log("Email for the request is: " + email);
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		console.log(req.session.user);
+
+		if (category_id == null) category_id = 8;
+		console.log(category_id);
+
+		var last_id;
 
 		let sql = `INSERT INTO request (
-		service, location, time, price) 
-		VALUES(?,?,?,?)`;
+		service, location, time, price, req_status, category_id) 
+		VALUES(?,?,?,?,?,?)`;
 
-		db.run (sql, [service, location, time, price], function(err){
-			if (err){
-				return console.log("Insert Request Error: " + err.message);
-			}
-			console.log(service + ` added Successfully with rowid ${this.lastID}`);
-			var message = service + " added successfully.";
-			res.render('userHome.ejs', {message: message, name:""});
+		let sql2 = `INSERT INTO customer_request (req_id, email) VALUES (?,?)`;
+
+		let sql3 = `select seq from sqlite_sequence where name="request"`;
+
+		db.serialize(function(err){
+			db.run (sql, [service, location, time, price, req_status, category_id], function(err){
+				if (err){
+					return console.log("Insert Request Error: " + err.message);
+				}
+				console.log(service + ` added Successfully with rowid ${this.lastID}`);
+				var message = service + " added successfully.";
+				req.session.message = message;
+				res.redirect('/userHome');
+			});
+
+			db.all(sql3, [], function(err, rows){
+				if(err){
+					return console.log("Getting last id error: " + err.message);
+				}
+
+				console.log("This is the last ID: " + rows[0].seq);
+
+				last_id = rows[0].seq;
+
+				db.run(sql2, [last_id, email], function(err){
+					if (err){
+						console.log(last_id + " " + email);
+						return console.log("Error while adding in customer_request table: " + err.message);
+					}
+					console.log("Successfully added in customer_request.");
+				});
+			});
+			
 		});
 		
 	}
@@ -198,7 +343,7 @@ router.post('/requestSubmit', function(req, res, next){
 		console.error("Internal error:"+ex);
 		return next(ex);
 	}
-})
+});
 
 router.get('/loginPage', function(req,res,next){
 	res.sendFile('home.html', {'root': __dirname + '/../views'});
@@ -224,11 +369,23 @@ router.get('/userHome',function(req,res){
 	var user =  req.session.user;
 	var userId = req.session.email;
 	console.log(userId);
+
+	var message2 = req.session.message;
+	if (message2 != null){
+		message = message2;
+	}
+	else{
+		message = "";
+	}
+	
 	if (userId == null){
 		res.redirect('/');
 	}
 	res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 	res.render('userHome.ejs', {name: (user.first_name + ' ' + user.last_name), message: message});
+	delete req.session.message;
+	console.log(req.session.message);
+	console.log(req.session);
 
 });
 
@@ -254,10 +411,43 @@ router.get('/logout', function(req, res){
    })
 })
 
+
+
 //Customer Side Pages
-router.get('/businessreq', function(req,res,next){
-	res.render('businessReq.ejs',{'root': __dirname + '/../views'});
+router.get('/pendingreq', function(req,res,next){
+	try{
+		message = ''
+		console.log("Pen request");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.email;
+
+		let sql = `Select request.*, category.category from category, customer_request, request where 
+					(customer_request.req_id = request.req_id and  customer_request.email = ?) 
+					and (request.req_status = 0 OR 1) and (category.category_id = request.category_id)`;
+
+		db.all(sql, [email], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('pendingReq.ejs', {message: message, requests: requests});
+
+		})
+
+
+		//res.render('pendingReq.ejs',{'root': __dirname + '/../views'});
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
+
+
 router.get('/businessbid', function(req,res,next){
 	res.render('businessBid.ejs',{'root': __dirname + '/../views'});
 });
@@ -265,10 +455,6 @@ router.get('/businessbid', function(req,res,next){
 router.get('/userhistory', function(req,res,next){
 	res.render('userHistory.ejs',{'root': __dirname + '/../views'});
 });
-
-
-
-
 
 //categories
 
@@ -303,33 +489,282 @@ router.get('/allcategories', function(req,res,next){
 });
 
 router.get('/delivery', function(req,res,next){
-	res.render('categories/delivery.ejs',{'root': __dirname + '/../views'});
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		// var email = req.session.bussEmail;
+
+		// if (email == null){
+		// 	res.redirect('/');
+		// }
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 1) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/delivery.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
-router.get('/education', function(req,res,next){
-	res.render('categories/education.ejs',{'root': __dirname + '/../views'});
+router.get('/education', function(req,res,next){try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		// var email = req.session.bussEmail;
+
+		// if (email == null){
+		// 	res.redirect('/');
+		// }
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 2) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/education.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 router.get('/electronics', function(req,res,next){
-	res.render('categories/electronics.ejs',{'root': __dirname + '/../views'});
-});
-router.get('/foodDelivery', function(req,res,next){
-	res.render('categories/foodDelivery.ejs',{'root': __dirname + '/../views'});
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 3) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/electronics.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
-router.get('/others', function(req,res,next){
-	res.render('categories/others.ejs',{'root': __dirname + '/../views'});
+router.get('/foodDelivery', function(req,res,next){
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 4) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/foodDelivery.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 router.get('/painting', function(req,res,next){
-	res.render('categories/painting.ejs',{'root': __dirname + '/../views'});
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 5) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/painting.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
+
 router.get('/programming', function(req,res,next){
-	res.render('categories/programming.ejs',{'root': __dirname + '/../views'});
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 6) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/painting.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 router.get('/repairing', function(req,res,next){
-	res.render('categories/repairing.ejs',{'root': __dirname + '/../views'});
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 7) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/repairing.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+});
+
+router.get('/others', function(req,res,next){
+	try{
+		message = ''
+		console.log("Delivery Cat");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+
+		if (email == null){
+			res.redirect('/');
+		}
+
+		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
+					from category, customer_request, request, customer 
+					where (request.req_status = 0 or 1) and (customer_request.req_id = request.req_id) 
+					and (request.category_id = category.category_id) and (request.category_id = 8) 
+					and (customer.email = customer_request.email)`;
+
+		db.all(sql, [], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('categories/others.ejs', {message: message, requests: requests});
+		})
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 // router.post('/addUser', function(req,res,next){

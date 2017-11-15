@@ -54,7 +54,7 @@ db.serialize(function(){
   });
 
   db.run(`CREATE TABLE IF NOT EXISTS service_category (
-    category_id INTEGER NOT NULL UNIQUE,
+    category_id INTEGER NOT NULL,
     service_email TEXT NOT NULL,
     favorite BOOLEAN,
   	FOREIGN KEY (category_id) REFERENCES category(category_id),
@@ -71,7 +71,7 @@ db.serialize(function(){
 		time TEXT NOT NULL,
 		price INTEGER NOT NULL,
     req_status INTEGER,
-    category_id INTEGER UNIQUE,
+    category_id INTEGER,
     FOREIGN KEY (category_id) REFERENCES category(category_id)
 		)`, [], function(err){
 
@@ -83,7 +83,7 @@ db.serialize(function(){
   // IN REQ STATUS 0 is pending 1 is accepted 2 is completed 3 is deleted 4 is overdue
 
 	db.run(`CREATE TABLE IF NOT EXISTS customer_request (
-		req_id INTEGER NOT NULL UNIQUE,
+		req_id INTEGER NOT NULL,
 		email TEXT NOT NULL,
 		FOREIGN KEY (req_id) REFERENCES request(req_id),
 		FOREIGN KEY (email) REFERENCES customer(email))`, [], function(err){
@@ -107,7 +107,7 @@ db.serialize(function(){
     );
 
   db.run(`CREATE TABLE IF NOT EXISTS bid_service (
-    bid_id INTEGER NOT NULL UNIQUE,
+    bid_id INTEGER NOT NULL,
     service_email TEXT NOT NULL,
   	FOREIGN KEY (bid_id) REFERENCES bid(bid_id),
   	FOREIGN KEY (service_email) REFERENCES serviceprovider(email)
@@ -205,12 +205,12 @@ db.serialize(function(){
  //    console.log("category Table dropped successfully!");
  //  });
 
- //  db.run("DROP TABLE IF EXISTS service_category", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("service_category Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS service_category", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("service_category Table dropped successfully!");
+  // });
 
   // db.run("DROP TABLE IF EXISTS request", [], function(err){
   //   if (err){
@@ -219,47 +219,47 @@ db.serialize(function(){
   //   console.log("request Table dropped successfully!");
   // });
 
- //  db.run("DROP TABLE IF EXISTS customer_request", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("customer_request Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS customer_request", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("customer_request Table dropped successfully!");
+  // });
 
- //  db.run("DROP TABLE IF EXISTS bid", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("bid Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS bid", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("bid Table dropped successfully!");
+  // });
 
- //  db.run("DROP TABLE IF EXISTS bid_service", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("bid_service Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS bid_service", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("bid_service Table dropped successfully!");
+  // });
 
- //  db.run("DROP TABLE IF EXISTS request_bid", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("request_bid Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS request_bid", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("request_bid Table dropped successfully!");
+  // });
 
- //  db.run("DROP TABLE IF EXISTS trans", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("trans Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS trans", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("trans Table dropped successfully!");
+  // });
 
- //  db.run("DROP TABLE IF EXISTS evaluate", [], function(err){
- //    if (err){
- //      return console.log(err.message);
- //    }
- //    console.log("evaluate Table dropped successfully!");
- //  });
+  // db.run("DROP TABLE IF EXISTS evaluate", [], function(err){
+  //   if (err){
+  //     return console.log(err.message);
+  //   }
+  //   console.log("evaluate Table dropped successfully!");
+  // });
 
 
 

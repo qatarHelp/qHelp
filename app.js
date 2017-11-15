@@ -18,12 +18,17 @@ var users = require('./routes/users');
 
 var app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
 //Start sessions
 app.use(session({
   secret: 'Muhsin is the 5th member.',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  cookie: { 
+    maxAge: 10 * 60 * 1000
+
+  },
+  rolling: true
 }));
 
 // view engine setup
@@ -36,7 +41,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', index);
 app.use('/users', users);
