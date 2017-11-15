@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../sql/db_manage.js");
-var $ = require('jquery');
+// var $ = require('jquery');
 
 router.get('/',function(req,res){
     res.sendFile('main.html',{'root': __dirname + '/../views'});
