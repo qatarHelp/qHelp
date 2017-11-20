@@ -27,6 +27,7 @@
     <!-- Material Design Bootstrap -->
     <link href="css/table2.min.css" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -53,8 +54,7 @@
       </div>
     </nav>
 
-
-     <section id="services" style="padding-top: 80px; padding-bottom: 80px;">
+     <section id="services" style="padding-top: 80px; padding-bottom: 80px;padding-right: 110px;">
                     <div class="container">
                       <div class="row">
                         <div class="col-lg-12 text-center">
@@ -76,7 +76,8 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Description:</h4>
-                            <input type = "text" style="width: 400px;" name = "service" id = "service"  placeholder = "Vanilla caramel Latte"><br>
+                            <input type = "text" style="width: 400px;" name = "service" id = "service"  placeholder = "Vanilla caramel Latte"> 
+                            <a href="#" data-toggle="tooltip" title="Provide the task you want to accomplish in details" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
                            </div>
                           </div>
                         </div>
@@ -84,7 +85,8 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 47px;">Location:</h4>
-                            <input type = "text" style="width: 400px;" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation"><br>
+                            <input type = "text" style="width: 400px;" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation">
+                            <a href="#" data-toggle="tooltip" title="Location of the task to be completed at" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
                            </div>
                           </div>
                         </div>
@@ -92,7 +94,8 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Deadline Time:</h4>
-                            <input type = "text" style="width: 367px;" name = "stime" id = "stime"  placeholder = "Today by 12pm"><br>
+                            <input type = "text" style="width: 367px;" name = "stime" id = "stime"  placeholder = "Today by 12pm">
+                            <a href="#" data-toggle="tooltip" title="When is the task required to be done at latest" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
                            </div>
                           </div>
                         </div>
@@ -100,7 +103,8 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Maximum Price (QR.):</h4>
-                            <input type = "text" style="width: 295px;" name = "price" id = "price"  placeholder = "50"><br>
+                            <input type = "text" style="width: 295px;" name = "price" id = "price"  placeholder = "50">
+                            <a href="#" data-toggle="tooltip" title="How much are you in total willing to pay" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
                            </div>
                           </div>
                         </div>
@@ -108,7 +112,7 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 30px;">Category (Optional):</h4>
-                            <select name="cats" style="width: 300px;">
+                            <select name="category" style="width: 300px; background-color: white;">
                               <option disabled selected value> -- select an option -- </option>
                               <option value="1">Delivery</option>
                               <option value="2">Education</option>
@@ -119,6 +123,7 @@
                               <option value="7">Repairing</option>
                               <option value="8">Others</option>
                             </select>
+                            <a href="#" data-toggle="tooltip" title="If your chore requires attention of specific sector then select one, otherwise we'll connect you with the most appropriate sector" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
                            </div>
                           </div>
                         </div>
@@ -187,6 +192,11 @@
       <script src = "./javascripts/fun.js"> </script>
     <script src="./javascripts/bootstrap.bundle.min.js"></script>
     <script src="./javascripts/fun.js"></script>
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
   </body>
 
 </html>
