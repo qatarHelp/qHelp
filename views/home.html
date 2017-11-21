@@ -55,30 +55,65 @@
       </div>
     </nav>
     
-	<h1>Welcome to QatarHelp</h1>
+	
 
-	<form method = "post" action = "/login">
-		<fieldset>
-			<legend>Log In:</legend>
-			<label>Email: </label>
-			<input type = "text" name = "uEmail" id = "uEmail"  placeholder = "some@some.com"><br>
-			<label>Password: </label>
-			<input type = "text" name = "uPass" id = "uPass"  placeholder = "***********"><br>
-			<br>
-	        <button type = "submit" id="submitDetails"  name="submitDetails">LogIn </button>
-	      
-		</fieldset>
-	</form>
+  <section id="services" style="padding-top: 80px; padding-bottom: 80px;padding-right: 110px;">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-lg-12 text-center">
+                          <h1>Please Login to your account</h1>
+                        </div>
+                      </div>
+                    </div>
 
-	<br>
-	<br>
+                      <form method = "post" action = "/login">
+                      <fieldset>
 
-	<h2>Not a Member yet? </h2>
-		
-		<a href = "./userSignup">SignUp as a User</a><br>
-		<a href = "./businessSignup">SignUp as a Business</a><br>
-		<a href = "./aboutUs">About Us</a><br>
-		<a href = "./faqPage">FAQ</a>
+                        <div class="col-lg-12 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                           <div class="row" style="width: 600px;">
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Email:</h4>
+                            <input type = "text" style="width: 450px;" name = "uEmail" id = "uEmail" ><br>
+                           </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                           <div class="row" style="width: 600px;">
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Password:</h4>
+                            <input type = "password" style="width: 400px;" name = "uPass" id = "uPass"><br>
+                           </div>
+                          </div>
+                        </div>
+                      
+                        <div class="col-lg-12 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                          <button type = "submit" id="submitDetails"  name="submitDetails">LogIn </button>
+                          </div>
+                        </div>
+                      </fieldset>
+                     </form>
+                      
+                    </div>
+                  </section>
+
+    <!-- /.container -->
+
+     <section class="bg-primary" style="padding-top: 50px; padding-bottom: 50px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white">Not a Member yet? </h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">Please sign up as a customer or a service provider! </p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="./userSignup">SignUp as Customer</a>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="./businessSignup">SignUp as Service Provider</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
 
     <!-- Footer -->
     <footer class="text-center" >
@@ -89,7 +124,6 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              Copyright &copy; Senior Project 2017
             </div>
           </div>
         </div>
