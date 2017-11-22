@@ -1,3 +1,4 @@
+var flash = require('connect-flash');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -17,6 +18,8 @@ var users = require('./routes/users');
 
 
 var app = express();
+
+app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
 //Start sessions

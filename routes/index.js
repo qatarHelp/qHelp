@@ -4,7 +4,16 @@ var db = require("../sql/db_manage.js");
 // var $ = require('jquery');
 
 router.get('/',function(req,res){
-    res.sendFile('main.html',{'root': __dirname + '/../views'});
+	var email = req.session.email;
+	console.log("IN MAIN !! " + email);
+
+	if (email == null){
+    	res.sendFile('main.html',{'root': __dirname + '/../views'});
+    }
+
+    else {
+    	res.redirect('/userHome');
+    }
 });
 
 
@@ -275,17 +284,49 @@ router.post('/addBusiness', function(req,res,next){
 router.post('/requestSubmit', function(req, res, next){
 
 	try{
+
+		var user =  req.session.user;
+		var email = req.session.email;
+		var message = ''; 
+		var errors = {
+			"errors": [
+			{
+				"service": false,
+				"location": false,
+				"time": false,
+				"price": false,
+				"category_id": false
+			}
+			]
+		}
 		var service = req.body.service;
+		if (service == ""){
+			console.log("CMMMMMMMOOOOOONNNNNN");
+			errors.service = true;
+		}
+
 		var location = req.body.location;
 		if (location == ""){
-			location = null;
+			errors.location = true;
 		}
-		var time = req.body.stime;
-		var price = req.body.price;
-		var req_status = 0;
-		var category_id = req.body.cats;
 
-		var email = req.session.email;
+		var time = req.body.stime;
+		if (time == ""){
+			errors.time = true;
+		}
+
+		var price = req.body.price;
+		if (price == ""){
+			errors.price = true;
+		}
+
+		var req_status = 0;
+
+		var category_id = req.body.category;
+		if (category_id == null){
+			errors.category_id = true;
+		}
+
 		console.log("Email for the request is: " + email);
 
 		if (email == null){
@@ -294,10 +335,13 @@ router.post('/requestSubmit', function(req, res, next){
 
 		console.log(req.session.user);
 
-		if (category_id == null) category_id = 8;
-		console.log(category_id);
+		if (errors.service == true || errors.location == true ||
+			errors.time == true || errors.price == true || 
+			errors.category_id == true){
+			return res.render ('userHome.ejs', {name: (user.first_name + " " + user.last_name), message: '', error: errors});
+		}
 
-		var last_id;
+		
 
 		let sql = `INSERT INTO request (
 		service, location, time, price, req_status, category_id) 
@@ -313,27 +357,30 @@ router.post('/requestSubmit', function(req, res, next){
 					return console.log("Insert Request Error: " + err.message);
 				}
 				console.log(service + ` added Successfully with rowid ${this.lastID}`);
+
 				var message = service + " added successfully.";
 				req.session.message = message;
-				res.redirect('/userHome');
-			});
 
-			db.all(sql3, [], function(err, rows){
-				if(err){
-					return console.log("Getting last id error: " + err.message);
-				}
-
-				console.log("This is the last ID: " + rows[0].seq);
-
-				last_id = rows[0].seq;
-
-				db.run(sql2, [last_id, email], function(err){
-					if (err){
-						console.log(last_id + " " + email);
-						return console.log("Error while adding in customer_request table: " + err.message);
+				db.all(sql3, [], function(err, rows){
+					if(err){
+						return console.log("Getting last id error: " + err.message);
 					}
-					console.log("Successfully added in customer_request.");
+
+					console.log("This is the last ID: " + rows[0].seq);
+
+					last_id = rows[0].seq;
+
+					db.run(sql2, [last_id, email], function(err){
+						if (err){
+							console.log(last_id + " " + email);
+							return console.log("Error while adding in customer_request table: " + err.message);
+						}
+						console.log("Successfully added in customer_request.");
+					});
 				});
+
+				res.redirect('/userHome');
+
 			});
 			
 		});
@@ -365,6 +412,18 @@ router.get('/userHome',function(req,res){
 
 	
 	var message = 'LogIn successful!!';
+	var errors = {
+			"errors": [
+			{
+				"service": false,
+				"location": false,
+				"time": false,
+				"price": false,
+				"category_id": false
+			}
+			]
+		}
+
 
 	var user =  req.session.user;
 	var userId = req.session.email;
@@ -382,7 +441,7 @@ router.get('/userHome',function(req,res){
 		res.redirect('/');
 	}
 	res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-	res.render('userHome.ejs', {name: (user.first_name + ' ' + user.last_name), message: message});
+	res.render('userHome.ejs', {name: (user.first_name + ' ' + user.last_name), message: message, error: errors});
 	delete req.session.message;
 	console.log(req.session.message);
 	console.log(req.session);
@@ -420,15 +479,28 @@ router.get('/viewalloffers', function(req,res,next){
 //Customer Side Pages
 router.get('/pendingreq', function(req,res,next){
 	try{
-		message = ''
+		var message = '';
+
+		var message2 = req.session.message;
+		if (message2 != null){
+			message = message2;
+		}
+		else{
+			message = '';
+		}
+
+		req.session.message = null;
+
 		console.log("Pen request");
 		// console.log(user);
 		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
 		var requests = null;
 		var email = req.session.email;
+		console.log("EMAIL IN PEN REQ: " + email);
+		if (email == null) res.redirect('/');
 
 		let sql = `Select request.*, category.category from category, customer_request, request where 
-					(customer_request.req_id = request.req_id and  customer_request.email = ?) 
+					(customer_request.req_id = request.req_id and customer_request.email = ?) 
 					and (request.req_status = 0 OR 1) and (category.category_id = request.category_id)`;
 
 		db.all(sql, [email], function(err, rows){
@@ -450,6 +522,46 @@ router.get('/pendingreq', function(req,res,next){
 		return next(ex);
 	}
 });
+router.get('/pendingreq/:id', function(req, res, next){
+	try{
+		var id = req.params.id;
+
+		var email = req.session.email;
+		console.log("The is and email are: " + id + " " + email);
+
+		sql1 = `DELETE FROM request WHERE req_id=?`;
+
+		sql2 = `DELETE FROM customer_request WHERE req_id = ? and email = ?`;
+
+		db.run(sql1, [id], function(err){
+			if(err){
+				return console.log(err.message);
+			}
+			console.log("Successfully deleted id: " + id + " from request table");
+
+			db.run(sql2, [id, email], function(err){
+				if(err){
+					return console.log(err.message);
+				}
+				console.log("Successfully deleted id and email: " + id + " " + email
+					 		+ "from customer_request table");
+
+				var message = "Request id " + id + " deleted successfully for " + email;
+				req.session.message = message;
+				res.redirect('/pendingreq');
+			});
+		});
+
+
+
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+});
+
+
 
 router.get('/makeBid', function(req,res,next){
 

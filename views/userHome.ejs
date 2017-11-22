@@ -35,7 +35,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="position: relative; background-color: #f05f40;">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="./main">QatarHelp</a>        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand js-scroll-trigger" href="/">QatarHelp</a>        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -59,59 +59,79 @@
                       <div class="row">
                         <div class="col-lg-12 text-center">
                           <h2 class="section-heading"><%= name %> I want to request for:</h2>
-                          <% if (message) { %>
-                            <h2><%= message %></h2>
-                          <% } %>
+
                           <hr class="my-4">
                         </div>
                       </div>
                     </div>
 
                     <div class="container">
-
+                      
                       <form method = "post" action = "/requestSubmit">
+                        
                       <fieldset>
 
                         <div class="col-lg-12 text-center">
+                          <% if (message != '') { %>
+                            <p style = "color: red;"><%= message %></p>
+                        <% } %>
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
-                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Description:</h4>
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Description:</h4>
                             <input type = "text" style="width: 400px;" name = "service" id = "service"  placeholder = "Vanilla caramel Latte"> 
                             <a href="#" data-toggle="tooltip" title="Provide the task you want to accomplish in details" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+                            <% if (error.service == true) { %>
+                              <p style ="color: red; font-size: 14px; margin-top: 5px;">*Description is compulsory</p>
+                            <% } %>
                            </div>
                           </div>
                         </div>
                         <div class="col-lg-12 text-center">
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
-                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 47px;">Location:</h4>
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 47px;"><span style="color: red;">*</span>Location:</h4>
                             <input type = "text" style="width: 400px;" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation">
                             <a href="#" data-toggle="tooltip" title="Location of the task to be completed at" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+
+                            <% if (error.location == true) { %>
+                              <p style ="color: red; font-size: 14px; margin-top: 5px;">*Location is compulsory</p>
+                            <% } %>
+
                            </div>
                           </div>
                         </div>
                         <div class="col-lg-12 text-center">
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
-                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Deadline Time:</h4>
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Deadline Time:</h4>
                             <input type = "text" style="width: 367px;" name = "stime" id = "stime"  placeholder = "Today by 12pm">
                             <a href="#" data-toggle="tooltip" title="When is the task required to be done at latest" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+
+                            <% if (error.time == true) { %>
+                              <p style ="color: red; font-size: 14px; margin-top: 5px;">*Time is compulsory</p>
+                            <% } %>
+
                            </div>
                           </div>
                         </div>
                         <div class="col-lg-12 text-center">
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
-                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Maximum Price (QR.):</h4>
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Maximum Price (QR.):</h4>
                             <input type = "text" style="width: 295px;" name = "price" id = "price"  placeholder = "50">
                             <a href="#" data-toggle="tooltip" title="How much are you in total willing to pay" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+
+                            <% if (error.price == true) { %>
+                              <p style ="color: red; font-size: 14px; margin-top: 5px;">*Price is compulsory</p>
+                            <% } %>
+
                            </div>
                           </div>
                         </div>
                         <div class="col-lg-12 text-center">
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
-                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 30px;">Category (Optional):</h4>
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 30px;"><span style="color: red;">*</span>Category:</h4>
                             <select name="category" style="width: 300px; background-color: white;">
                               <option disabled selected value> -- select an option -- </option>
                               <option value="1">Delivery</option>
@@ -124,6 +144,11 @@
                               <option value="8">Others</option>
                             </select>
                             <a href="#" data-toggle="tooltip" title="If your chore requires attention of specific sector then select one, otherwise we'll connect you with the most appropriate sector" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+
+                            <% if (error.category_id == true) { %>
+                              <p style ="color: red; font-size: 14px; margin-top: 5px;">*Please select a category</p>
+                            <% } %>
+
                            </div>
                           </div>
                         </div>
