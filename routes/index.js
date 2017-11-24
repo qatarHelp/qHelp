@@ -470,10 +470,49 @@ router.get('/logout', function(req, res){
    })
 })
 
-router.get('/viewalloffers', function(req,res,next){
+router.get('/viewalloffers/:id', function(req,res,next){
 
+	try{
+		var id = req.params.id;
+
+		var email = req.session.email;
+
+		message = '';
+		var requests = null;
+		console.log("The is id and email are: " + id + " " + email);
+
+		sql1 = `Select request.*, category.category, bid.*, serviceprovider.first_name, serviceprovider.last_name
+				from bid, category, customer_request, request, 
+				bid_service, request_bid, serviceprovider where 
+				(customer_request.req_id = ?) and
+				(request.req_id = customer_request.req_id and request.req_id = request_bid.req_id) and 
+				(request_bid.bid_id = bid.bid_id) and (bid_service.bid_id = bid.bid_id) and
+				(bid_service.service_email = serviceprovider.email) and 
+				(category.category_id = request.category_id)`;
+
+
+		db.all(sql1, [id], function(err, rows){
+			if(err){
+				return console.log(err.message);
+			}
+			console.log("Got all offers");
+
+			if (rows.length == 0){
+				requests = null;
+			}
+			else{
+				requests = rows;
+			}
+
+			res.render('view_all_offers.ejs',{message: message, requests: requests});
+		});
+
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 	
-	res.render('view_all_offers.ejs',{'root': __dirname + '/../views'});
 });
 
 //Customer Side Pages
@@ -561,12 +600,115 @@ router.get('/pendingreq/:id', function(req, res, next){
 	}
 });
 
+router.get('/makeBid/:id', function(req,res,next){
+
+	try{
+		var id = req.params.id;
+
+		var bus_email = req.session.bussEmail;
+		var requestBid = null;
+		if (bus_email == null){
+			res.redirect('login.ejs');
+		}
+
+		var sql = `Select request.*,  customer.first_name, customer.last_name
+					from customer_request, request, customer 
+					where (request.req_id = ?) and (customer_request.req_id = request.req_id) 
+					and (customer.email = customer_request.email);`;
+
+		db.all(sql, [id], function(err, rows){
+			if(err){
+				return console.log(err.message);
+			};
+			requestBid = rows[0];
+			res.render('makeBid.ejs', {requests: requestBid});
+		});
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+});
+
+router.post('/bidMade', function(req, res, next){
+	try{
+		var req_id = req.body.req_id;
+
+		var bid_price = req.body.bid_price;
+		var bid_description = req.body.desc;
+		var bid_status = 0;
+
+		var bus_email = req.session.bussEmail;
+
+		var requestBid = null;
+
+		if (bus_email == null){
+			res.redirect('login.ejs');
+		}
+
+		console.log(req_id);
+
+		var last_id = null;
 
 
-router.get('/makeBid', function(req,res,next){
+		let sql = `INSERT INTO bid (
+		bid_price, bid_description, bid_status) 
+		VALUES(?,?,?)`;
 
-	
-	res.render('makeBid.ejs',{'root': __dirname + '/../views'});
+		let sql2 = `INSERT INTO bid_service (bid_id, service_email) VALUES (?,?)`;
+
+		let sql4 = `INSERT INTO request_bid (customer_accepted, serviceprovider_accepted, req_id, bid_id) VALUES (?,?,?,?)`;
+
+		let sql3 = `select seq from sqlite_sequence where name="bid"`;
+
+		db.serialize(function(err){
+			db.run (sql, [bid_price, bid_description, bid_status], function(err){
+				if (err){
+					return console.log("Insert Request Error: " + err.message);
+				}
+				console.log(`Bid made Successfully with rowid ${this.lastID}`);
+
+				// var message =  "Bid made successfully.";
+				
+
+				db.all(sql3, [], function(err, rows){
+					if(err){
+						return console.log("Getting last id error: " + err.message);
+					}
+
+					console.log("This is the last ID: " + rows[0].seq);
+
+					last_id = rows[0].seq;
+
+					db.run(sql2, [last_id, bus_email], function(err){
+						if (err){
+							console.log(last_id + " " + bus_email);
+							return console.log("Error while adding in customer_request table: " + err.message);
+						}
+						console.log("Successfully added in bid_service");
+					});
+
+					db.run(sql4, [false, false, req_id, last_id], function(err){
+						if (err){
+							console.log(last_id + " " + req_id);
+							return console.log("Error while adding in request_bid table: " + err.message);
+						}
+						console.log("Successfully added in request_bid");
+					});
+				});
+
+				res.redirect('/allcategories');
+
+			});
+			
+		});
+		// 	res.render('makeBid.ejs', {requests: requestBid});
+		// });
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 router.get('/businessbid', function(req,res,next){
@@ -580,7 +722,56 @@ router.get('/userhistory', function(req,res,next){
 //categories
 
 router.get('/pendingbids', function(req,res,next){
-	res.render('pendingBids.ejs',{'root': __dirname + '/../views'});
+
+
+	try{
+		var message = '';
+
+		var message2 = req.session.message;
+		if (message2 != null){
+			message = message2;
+		}
+		else{
+			message = '';
+		}
+
+		req.session.message = null;
+
+		console.log("Pen request");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+		console.log("EMAIL IN PEN BID: " + email);
+		if (email == null) res.redirect('/');
+
+		let sql = `Select request.*, category.category, bid.*, customer.first_name, customer.last_name
+					from bid, category, customer_request, request, 
+					bid_service, request_bid, serviceprovider, customer where 
+					(bid_service.bid_id = bid.bid_id and bid_service.service_email = ?) and
+					(serviceprovider.email = ?) and
+					(request_bid.bid_id = bid.bid_id and request_bid.req_id = request.req_id) and
+					(customer_request.req_id = request.req_id and customer_request.email = customer.email) 
+					and (request.req_status = 0 OR 1) and (category.category_id = request.category_id)`;
+
+		db.all(sql, [email, email], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('pendingBids.ejs', {message: message, requests: requests});
+
+		})
+
+
+		//res.render('pendingReq.ejs',{'root': __dirname + '/../views'});
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 router.get('/businesshistory', function(req,res,next){
@@ -593,6 +784,12 @@ router.get('/allcategories', function(req,res,next){
 	// console.log(user);
 	// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
 	var requests = null;
+
+	var email = req.session.bussEmail;
+
+	if (email == null){
+		res.redirect('/');
+	}
 
 	let sql = `SELECT * FROM request`;
 
@@ -616,11 +813,11 @@ router.get('/delivery', function(req,res,next){
 		// console.log(user);
 		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
 		var requests = null;
-		// var email = req.session.bussEmail;
+		var email = req.session.bussEmail;
 
-		// if (email == null){
-		// 	res.redirect('/');
-		// }
+		if (email == null){
+			res.redirect('/');
+		}
 
 		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
 					from category, customer_request, request, customer 
@@ -650,11 +847,11 @@ router.get('/education', function(req,res,next){try{
 		// console.log(user);
 		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
 		var requests = null;
-		// var email = req.session.bussEmail;
+		var email = req.session.bussEmail;
 
-		// if (email == null){
-		// 	res.redirect('/');
-		// }
+		if (email == null){
+			res.redirect('/');
+		}
 
 		let sql = `Select request.*, category.category, customer.first_name, customer.last_name
 					from category, customer_request, request, customer 

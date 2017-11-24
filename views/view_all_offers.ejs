@@ -11,18 +11,18 @@
     <title>Make A Bid</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="./../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
     <!-- Plugin CSS -->
-    <link href="./vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link href="./../vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./stylesheets/creative.min.css" rel="stylesheet">
+    <link href="./../stylesheets/creative.min.css" rel="stylesheet">
     <link href="css/table1.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="css/table2.min.css" rel="stylesheet">
@@ -53,33 +53,51 @@
       </div>
     </nav>
 
- <section id="services" style="padding-top: 50px; padding-bottom: 50px;">
-                    <div class="container">
-                      <div class="col-lg-12 text-center">
-                          <h2 class="section-heading">View Offers</h2>
-                          <hr class="my-4">
-                        </div>
-                        <h3>Owner: </h3>
-                        <h3>Description: </h3>
-                        <h3>Location: </h3>
-                        <h3>Time: </h3>
-                        <h3>Price: </h3>
-                        <h3>Offer By: </h3>
-                        <button>Accept</button>
-                        <button>Reject</button>
-                        <button>Negotiate?</button>
-                        
-                      </div>
-                  </section>
+    <section id="services" style="padding-top: 30px; padding-bottom: 20px;">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading">View Offers</h2>
+        <hr class="my-4">
+      </div>
+      <% if (message != '') { %>
+        <p style="color: red;">*<%= message %></p>
+      <% } %>
+    </section>
+
+    <% if (requests != null) { %>
+      <% requests.forEach(function(request){ %>
+        <section id="services" style="width: 400px; padding-top: 10px; padding-bottom: 10px; border: 2px solid; float: left; margin: 0 0 5px 50px;">
+          <div class="container">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading" style="font-size: 19px;">Offer By: <%= request.first_name + " " + request.last_name %> </h2>
+                <hr style="color: black;">
+              </div>
+                <h3 style="font-size: 16px;">Request ID:  <%= request.req_id %> </h3>
+                <h3 style="font-size: 16px;">Description: <%= request.service %> </h3>
+                <h3 style="font-size: 16px;">Asking Price: <%= request.price %> </h3>
+                <h3 style="font-size: 16px;">Location: <%= request.location %> </h3>
+                <h3 style="font-size: 16px;">Time: <%= request.time %> </h3>
+                <h3 style="font-size: 16px;">Category: <%= request.category %></h3>
+                <br>
+                <h3 style="font-size: 16px;">Offered Price: <%= request.bid_price %> </h3>
+                <h3 style="font-size: 16px;">Reason: <%= request.bid_description %> </h3>
+                <button>Accept</button>
+                <button>Reject</button>
+                <button>Negotiate?</button>
+            </div>
+        </section>
+       <% }); %>
+    <% } else{ %>
+      <p style="color: red; margin: 10px 0 0 40px">*Sorry, no offers have been made on this request so far.</p>
+    <% } %>
 
       
     <!-- Footer -->
-    <footer class="text-center" >
+    <footer class="text-center">
       <div class="footer-above">
         <div class="container" >
           
       <div class="footer-below">
-        <div class="container" style="position: absolute; bottom: 0;">
+        <div class="container" style="position: absolute; bottom: 0px;">
           <div class="row">
             <div class="col-lg-12">
               Copyright &copy; Senior Project 2017
@@ -93,9 +111,9 @@
 
     <!-- Bootstrap core JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="./javascripts/bootstrap.min.js"></script>
-      <script src = "./javascripts/fun.js"> </script>
-    <script src="./javascripts/bootstrap.bundle.min.js"></script>
+    <script src="./../javascripts/bootstrap.min.js"></script>
+      <script src = "./../javascripts/fun.js"> </script>
+    <script src="./../javascripts/bootstrap.bundle.min.js"></script>
   </body>
 
 </html>

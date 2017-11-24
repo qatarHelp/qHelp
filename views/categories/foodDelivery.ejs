@@ -11,18 +11,18 @@
     <title>All Categories</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="./../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
     <!-- Plugin CSS -->
-    <link href="./vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link href="./../vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./stylesheets/creative.min.css" rel="stylesheet">
+    <link href="./../stylesheets/creative.min.css" rel="stylesheet">
 
 </head>
 
@@ -60,12 +60,13 @@
                       <table>
                         <thead>
                           <tr>
+                            <th> Request ID </th>
                             <th> Customer Name </th>
                             <th> Request Desc. </th>
                             <th> Address </th>
                             <th> Time </th>
                             <th> Price </th>
-                            <th colspan="7"></th>
+                            <th colspan="8"></th>
                           </tr>
                         </thead>
 
@@ -73,13 +74,14 @@
                         <tbody>
                           <% requests.forEach(function(request){ %>
                             <tr>
+                              <td> <%= request.req_id %> </td>
                               <td> <%= request.first_name + " " + request.last_name %> </td>
                               <td> <%= " " + request.service %> </td>
                               <td> <%= request.location %> </td>
                               <td> <%= request.time %> </td>
                               <td> <%= request.price %> </td>
                               <td> <a href = "#">Accept</a> </td>
-                              <td> <a href = "#">Negotiate</a> </td>
+                              <td> <a href = "/makeBid/<%= request.req_id %>">Make An Offer</a> </td>
                             </tr>
                           <% }); %>
                         </tbody>

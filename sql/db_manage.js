@@ -120,14 +120,16 @@ db.serialize(function(){
     serviceprovider_accepted BOOLEAN,
     req_id INTEGER NOT NULL,
     bid_id INTEGER NOT NULL,
-    trans_id INTEGER NOT NULL,
     FOREIGN KEY (req_id) REFERENCES request(req_id),
-    FOREIGN KEY (bid_id) REFERENCES bid(bid_id),
-    FOREIGN KEY (trans_id) REFERENCES trans(trans_id)
+    FOREIGN KEY (bid_id) REFERENCES bid(bid_id)
     )`, [], function(err){
       if (err){return console.log(err.message);}
       console.log("request_bid Table created successfully");}
     );
+
+    // trans stuff removed to make the bid work. 
+    // trans_id INTEGER NOT NULL,
+    // FOREIGN KEY (trans_id) REFERENCES trans(trans_id)
 
   db.run(`CREATE TABLE IF NOT EXISTS trans (
 		trans_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
