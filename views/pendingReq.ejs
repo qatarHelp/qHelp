@@ -27,6 +27,7 @@
     <!-- Material Design Bootstrap -->
     <link href="css/table2.min.css" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -61,19 +62,26 @@
                           <hr class="my-4">
                         </div>
 
-                      <table class="table table-hover" id="dev-table">
+                      
+
+                      <input type="text" id="search" style="float: right" placeholder="&#x1F50D;   Type to search..." />
+                      <table class="table table-hover" id="myTable" width="100%">
                         <% if (message != '') { %>
                             <p style="color: red;">*<%= message %></p>
                         <% } %>
+
                         <thead>
                           <tr>
-                            <th> Reduest ID </th>
-                            <th> Request Name </th>
-                            <th> Address </th>
-                            <th> Time </th>
-                            <th> Price (QR) </th>
-                            <th> Category </th>
-                            <th> Status </th>
+                            <th style="width: 90px;" onclick="sortTable(0)">Req # &#8693;</th>
+                            <th onclick="sortTable(1)">Request Name &#8693;</th> 
+                            <th onclick="sortTable(2)">Address &#8693;</th>
+                            <th onclick="sortTable(3)">Time &#8693;</th> 
+                            <th style="width: 110px;" onclick="sortTable(4)">Price QR &#8693;</th>
+                            <th onclick="sortTable(5)">Category &#8693;</th> 
+                            <th onclick="sortTable(6)">Status &#8693;</th> 
+                            <th>&#10003;</th>
+                            <th>&#10007;</th> 
+                            
                             <th colspan="9"></th>
                           </tr>
                         </thead>
@@ -93,8 +101,8 @@
                               <% } if (request.req_status == 1) { %>
                                 <td>In Progress</td>
                               <% } %>
-                              <td><a href="/pendingreq/<%= request.req_id %>">Cancel</a></td>
                               <td><a href="/viewalloffers/<%= request.req_id %>">View All Offers</a></td>
+                              <td><a href="/pendingreq/<%= request.req_id %>">&#10007;</a></td>
                             </tr>
                           <% }); %>
                         </tbody>
@@ -125,6 +133,76 @@
     <script src="./javascripts/bootstrap.min.js"></script>
       <script src = "./javascripts/fun.js"> </script>
     <script src="./javascripts/bootstrap.bundle.min.js"></script>
+    <script>
+            function sortTable(n) {
+              var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+              table = document.getElementById("myTable");
+              switching = true;
+              //Set the sorting direction to ascending:
+              dir = "asc"; 
+              /*Make a loop that will continue until
+              no switching has been done:*/
+              while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.getElementsByTagName("TR");
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                  //start by saying there should be no switching:
+                  shouldSwitch = false;
+                  /*Get the two elements you want to compare,
+                  one from current row and one from the next:*/
+                  x = rows[i].getElementsByTagName("TD")[n];
+                  y = rows[i + 1].getElementsByTagName("TD")[n];
+                  /*check if the two rows should switch place,
+                  based on the direction, asc or desc:*/
+                  if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                      //if so, mark as a switch and break the loop:
+                      shouldSwitch= true;
+                      break;
+                    }
+                  } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                      //if so, mark as a switch and break the loop:
+                      shouldSwitch= true;
+                      break;
+                    }
+                  }
+                }
+                if (shouldSwitch) {
+                  /*If a switch has been marked, make the switch
+                  and mark that a switch has been done:*/
+                  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                  switching = true;
+                  //Each time a switch is done, increase this count by 1:
+                  switchcount ++;      
+                } else {
+                  /*If no switching has been done AND the direction is "asc",
+                  set the direction to "desc" and run the while loop again.*/
+                  if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                  }
+                }
+              }
+            }
+    </script>
+    <script>
+        $("#search").keyup(function(){
+        var searchText = $(this).val().toLowerCase();
+        // Show only matching TR, hide rest of them
+        $.each($("#myTable tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf(searchText) === -1)
+               $(this).hide();
+            else
+               $(this).show();                
+            });
+         }); 
+    </script>
+
+   
   </body>
 
 </html>

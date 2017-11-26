@@ -404,7 +404,7 @@ router.get('/faqPage', function(req,res,next){
 	res.render('faq.ejs',{'root': __dirname + '/../views'});
 });
 
-router.get('/main',function(req,res){
+router.get('/',function(req,res){
     res.sendFile('main.html',{'root': __dirname + '/../views'});
 });
 
@@ -711,9 +711,6 @@ router.post('/bidMade', function(req, res, next){
 	}
 });
 
-router.get('/businessbid', function(req,res,next){
-	res.render('businessBid.ejs',{'root': __dirname + '/../views'});
-});
 
 router.get('/userhistory', function(req,res,next){
 	res.render('userHistory.ejs',{'root': __dirname + '/../views'});
