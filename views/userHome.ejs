@@ -24,6 +24,7 @@
     <!-- Custom styles for this template -->
     <link href="./stylesheets/creative.min.css" rel="stylesheet">
     <link href="css/table1.min.css" rel="stylesheet">
+    <link href="./stylesheets/style.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="css/table2.min.css" rel="stylesheet">
 
@@ -42,9 +43,6 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="./aboutUs">About</a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" href="./faqPage">FAQ</a>
             </li>
             <li class="nav-item ">
               <a class="nav-link" href="/logout">Logout</a>
@@ -104,7 +102,7 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Deadline Time:</h4>
-                            <input type = "text" style="width: 367px;" name = "stime" id = "stime"  placeholder = "Today by 12pm">
+                            <input type="datetime-local" name = "stime" id = "stime"  placeholder = "Today by 12pm">
                             <a href="#" data-toggle="tooltip" title="When is the task required to be done at latest" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
 
                             <% if (error.time == true) { %>
@@ -132,8 +130,8 @@
                           <div class="service-box mt-5 mx-auto">
                            <div class="row" style="width: 600px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 30px;"><span style="color: red;">*</span>Category:</h4>
-                            <select name="category" style="width: 300px; background-color: white;">
-                              <option disabled selected value> -- select an option -- </option>
+                            <select name="category" id="scategory">
+                              <option disabled selected value> -- Select an option -- </option>
                               <option value="1">Delivery</option>
                               <option value="2">Education</option>
                               <option value="3">Electronic</option>
@@ -193,20 +191,10 @@
                     </div>
                   </section>
 
-  <!-- Footer -->
-    <footer class="text-center">
-      <div class="footer-above">
-        <div class="container">
-          
-      <div class="footer-below">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              Copyright &copy; Senior Project 2017
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Footer -->
+    <footer class="py-5" style="opacity: 0.8;background-color: rgb(239, 95, 65);">
+      <div class="container">
+        <p class="m-0 text-center text-white">Made with <span style="color:red;">&#10084;</span>&nbsp; &#x1F525; &nbsp; &#128166; &nbsp; in Qatar. &copy; Jaldi 2017</p>
       </div>
     </footer>
 

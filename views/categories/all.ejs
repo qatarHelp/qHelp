@@ -40,9 +40,6 @@
               <a class="nav-link" href="./aboutUs">About</a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link" href="./faqPage">FAQ</a>
-            </li>
-            <li class="nav-item ">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
           </ul>
@@ -112,30 +109,44 @@
                   </section>
 
 
-<input type="text" id="search" style="float: right" placeholder="&#x1F50D;   Type to search..." />
-<table class="table table-hover" id="myTable" width="100%">
-  <thead>
-    <tr>
-      <th onclick="sortTable(0)">Request Name &#8693;</th>
-      <th onclick="sortTable(1)">Address &#8693;</th>
-      <th onclick="sortTable(2)">Time &#8693;</th>
-      <th onclick="sortTable(3)">Price &#8693;</th>
-      <th colspan="4"></th>
-    </tr>
-  </thead>
 
-<!-- This is where the requests are rendered !-->
-  <tbody>
-    <% requests.forEach(function(request){ %>
-      <tr>
-        <td><%= request.service %></td>
-        <td><%= request.location %></td>
-        <td><%= request.time %></td>
-        <td><%= request.price %></td>
-      </tr>
-    <% }); %>
-  </tbody>
-</table>
+ <section id="services" style="padding-top: 50px; padding-bottom: 50px;">
+    <div class="container">
+        <div class="row">
+                        <div class="col-lg-12 text-center">
+                          <h2 class="section-heading">All Requests in Every Category</h2>
+                          <hr class="my-4">
+                        </div>
+                      </div>
+
+            <input type="text" id="search" style="float: right" placeholder="&#x1F50D;   Type to search..." />
+            <table class="table table-hover" id="myTable" width="100%">
+              <thead>
+                <tr>
+                  <th onclick="sortTable(0)">Request Name &#8693;</th>
+                  <th onclick="sortTable(1)">Address &#8693;</th>
+                  <th onclick="sortTable(2)">Time &#8693;</th>
+                  <th onclick="sortTable(3)">Price &#8693;</th>
+                  <th colspan="4"></th>
+                </tr>
+              </thead>
+
+            <!-- This is where the requests are rendered !-->
+              <tbody>
+                <% requests.forEach(function(request){ %>
+                  <tr>
+                    <td><%= request.service %></td>
+                    <td><%= request.location %></td>
+                    <td><%= request.time %></td>
+                    <td><%= request.price %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+
+
+      </div>
+    </section>
 
       
 
@@ -143,20 +154,9 @@
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="text-center" >
-      <div class="footer-above">
-        <div class="container" >
-          
-      <div class="footer-below">
-        <div class="container" style="position: relative; bottom: 0;">
-          <div class="row">
-            <div class="col-lg-12">
-              Copyright &copy; Senior Project 2017
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+    <footer class="py-5" style="opacity: 0.8;background-color: rgb(239, 95, 65);">
+      <div class="container">
+        <p class="m-0 text-center text-white">Made with <span style="color:red;">&#10084;</span>&nbsp; &#x1F525; &nbsp; &#128166; &nbsp; in Qatar. &copy; Jaldi 2017</p>
       </div>
     </footer>
 
