@@ -50,7 +50,7 @@
       </div>
     </nav>
 
-    <section id="services" style="padding-top: 30px; padding-bottom: 20px;">
+    <section id="services" style="height:95%; padding-top: 30px; padding-bottom: 20px;margin-bottom: 20px;">
       <div class="col-lg-12 text-center">
         <h2 class="section-heading">View Offers</h2>
         <hr class="my-4">
@@ -58,7 +58,7 @@
       <% if (message != '') { %>
         <p style="color: red;">*<%= message %></p>
       <% } %>
-    </section>
+    
 
     <% if (requests != null) { %>
       <% requests.forEach(function(request){ %>
@@ -87,9 +87,10 @@
       <p style="color: red; margin: 10px 0 0 40px">*Sorry, no offers have been made on this request so far.</p>
     <% } %>
 
+    </section>
       
     <!-- Footer -->
-    <footer class="py-5" style="position:absolute;opacity: 0.8;background-color: rgb(239, 95, 65);">
+    <footer class="py-5" style="opacity: 0.8;background-color: rgb(239, 95, 65);">
       <div class="container">
         <p class="m-0 text-center text-white">Made with <span style="color:red;">&#10084;</span>&nbsp; &#x1F525; &nbsp; &#128166; &nbsp; in Qatar. &copy; Jaldi 2017</p>
       </div>
