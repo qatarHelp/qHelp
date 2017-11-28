@@ -125,7 +125,7 @@ router.post('/addUser', function(req,res,next){
 		let sql = `INSERT INTO customer (
 		email, password, first_name, last_name, address, phone_no, qid, creditcard_no, sms, accountbalance) 
 		VALUES(?,?,?,?,?,?,?,?,?,?)`;
-
+		console.log(pass);
 		db.run (sql, [email, pass, f_name, l_name, address, phone, qid, credit_card, sms, accountbalance], function(err){
 			if (err){
 				return console.log("Insert User Error: " + err.message);
@@ -548,6 +548,7 @@ router.get('/pendingreq', function(req,res,next){
 			}
 
 			requests = rows;
+			
 			console.log(rows);
 			res.render('pendingReq.ejs', {message: message, requests: requests});
 
