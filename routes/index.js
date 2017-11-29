@@ -132,7 +132,8 @@ router.post('/addUser', function(req,res,next){
 			}
 			console.log(email + ` added Successfully with rowid ${this.lastID}`);
 			var message = email + " created successfully. Login to continue.";
-			res.render('home.ejs', {message: message});
+			req.session.message = message
+			res.redirect('/loginPage');
 		});
 		
 	}
@@ -393,7 +394,17 @@ router.post('/requestSubmit', function(req, res, next){
 });
 
 router.get('/loginPage', function(req,res,next){
-	res.sendFile('home.html', {'root': __dirname + '/../views'});
+	var message = '';
+
+	if (req.session.message != null){
+		message = req.session.message;
+	}
+	else{
+		message = '';
+	}
+	req.session.message = null;
+
+	res.render('home.ejs', {message: message});
 });
 
 router.get('/aboutUs', function(req,res,next){
