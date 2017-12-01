@@ -100,3 +100,30 @@ font-size: 2em; color: #f8cbc2; position: relative; display: block;
   color: #ef5e40;
   font-weight: bold;
 }
+
+body {
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+}
+h1,
+h1+p {
+  margin: 30px 15px 0;
+  font-weight: 300;
+}
+h1+p a {
+  color: #333;
+}
+h1+p a:hover {
+  text-decoration: none;
+}
+h2 {
+  margin: 60px 15px 0;
+  padding: 0;
+  font-weight: 300;
+}
+h2 span {
+  margin-left: 1em;
+  color: #aaa;
+  font-size: 85%;
+}
