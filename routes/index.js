@@ -1015,7 +1015,7 @@ router.get('/programming', function(req,res,next){
 
 			requests = rows;
 			console.log(rows);
-			res.render('categories/painting.ejs', {message: message, requests: requests});
+			res.render('categories/programming.ejs', {message: message, requests: requests});
 		})
 	}
 	catch(ex){
