@@ -91,10 +91,20 @@
                         </div>
                         <div class="col-lg-12 text-center">
                           <div class="service-box mt-5 mx-auto">
-                           <div class="row" style="width: 600px;">
-                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 47px;"><span style="color: red;">*</span>Location:</h4>
-                            <input type = "text" style="width: 400px;" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation">
-                            <a href="#" data-toggle="tooltip" title="Location of the task to be completed at" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+                           <div class="row" style="width: 800px;">
+                            <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Drop-off Location:</h4>
+                            <input type = "text" style="width: 330px;" name = "location" id = "location" placeholder = "Room 1202 in CMU, Qatar Foundation">
+                            <a href="#" data-toggle="tooltip" title="Location of the task to be completed at" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a>
+
+                           <!-- Additional Fields -->
+                            <a href="#" onclick="add_fields();" title="Location of the task to be completed at" style="padding-left: 15px; padding-top: 12px; font-size: 1em;"> + Add Location </a>
+                               <div id="additional">
+                                   <div>
+                                    <div class="content">
+                                    </div>
+                                   </div>
+                                </div>
+
 
                             <% if (error.location == true) { %>
                               <p style ="color: red; font-size: 14px; margin-top: 5px;">*Location is compulsory</p>
@@ -103,12 +113,22 @@
                            </div>
                           </div>
                         </div>
+
                         <div class="col-lg-12 text-center">
                           <div class="service-box mt-5 mx-auto">
-                           <div class="row" style="width: 600px;">
+                           <div class="row" style="width: 800px;">
                             <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Deadline Time:</h4>
                             <input type="datetime-local" name = "stime" id = "stime"  placeholder = "Today by 12pm">
-                            <a href="#" data-toggle="tooltip" title="The latest date and time by which you want the service or product to be delivered to you" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a><br>
+                            <a href="#" data-toggle="tooltip" title="The latest date and time by which you want the service or product to be delivered to you" style="padding-left: 15px; padding-top: 12px; font-size: 20px;"> ? </a>
+
+                            <!-- Additional Fields -->
+                            <a href="#" onclick="add_time();" title="Location of the task to be completed at" style="padding-left: 15px; padding-top: 12px; font-size: 1em;"> + Add Time </a>
+                               <div id="additionaltime">
+                                   <div>
+                                    <div class="content2">
+                                    </div>
+                                   </div>
+                                </div>
 
                             <% if (error.time == true) { %>
                               <p style ="color: red; font-size: 14px; margin-top: 5px;">*Time is compulsory</p>
@@ -208,12 +228,7 @@
     <script src="./javascripts/bootstrap.min.js"></script>
       <script src = "./javascripts/fun.js"> </script>
     <script src="./javascripts/bootstrap.bundle.min.js"></script>
-    <script src="./javascripts/fun.js"></script>
-    <script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-});
-</script>
+    <script src="./javascripts/request.js"></script>
   </body>
 
 </html>
