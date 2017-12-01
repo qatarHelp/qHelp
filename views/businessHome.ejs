@@ -24,6 +24,7 @@
     <!-- Custom styles for this template -->
     <link href="./stylesheets/creative.min.css" rel="stylesheet">
     <link href="css/table1.min.css" rel="stylesheet">
+    <link href="./stylesheets/style.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="css/table2.min.css" rel="stylesheet">
 
@@ -40,8 +41,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="./pendingbids" class="fa fa-bell">&nbsp;&nbsp;<span class="num" style="font-size: 0.5em;">5</span></a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link" href="./"><%= name %></a>
+              <a href="./"class="fa fa-user-circle" style="font-size: 2em; color: #f8cbc2;"></a> 
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./"> <%= name %></a>
             </li>
             <li class="nav-item ">
               <a class="nav-link" href="/logout">Logout</a>
@@ -52,7 +59,6 @@
     </nav>
 
      <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3" style="margin-left: 15px;">Welcome to Business Page, <%= name %></h1>
 
     <section id="services" style="padding-top: 50px; padding-bottom: 50px;">
                     <div class="container">
