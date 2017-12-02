@@ -28,102 +28,99 @@
     <!-- Material Design Bootstrap -->
     <link href="css/table2.min.css" rel="stylesheet">
 
-</head>
+    </head>
 
-<body id="page-top">
-<div id="wrapper">
+        <body id="page-top">
+        <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="position: relative; background-color: #f05f40;">
-      <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="/">QatarHelp</a>        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="./aboutUs">About</a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="position: relative; background-color: #f05f40;">
+              <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="/">QatarHelp</a>        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="./aboutUs">About</a>
+                    </li>
+                    <li class="nav-item ">
+                      <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
 
-    <section style="height: 95%;">
-<section id="services" style="padding-top: 80px; padding-bottom: 20px;padding-right: 110px; text-align: center;">
-  <h2 class="section-heading">Make an Offer/Bid</h2>
-  <hr class="my-4">
-</section>
+        <section id="services" style="padding-top: 80px; padding-bottom: 20px;padding-right: 110px; text-align: center;">
+          <h2 class="section-heading">Make an Offer/Bid</h2>
+          <hr class="my-4">
+        </section>
 
- <section id="services" style="padding-top: 50px; padding-bottom: 20px; float: left; margin: 1.45% 0 0 16%; border: 2px solid;">
-  <div class="container">
-    <div class="col-lg-12 text-center">
-        
-        <h2 class="section-heading">Current Request Details:</h2>
-        <hr class="my-4">
-      </div>
-      <h3><b>Request ID: </b><span style="background-color: #ffcc99; font-size: 23px"> <%= requests.req_id %> </span></h3>
-      <h3><b>Owner: </b><span style="background-color: #ffcc99; font-size: 23px"> <%= requests.first_name + " " + requests.last_name %></span> </h3>
-      <h3><b>Description: </b> <span style="background-color: #ffcc99; font-size: 23px"><%= requests.service %></span></h3>
-      <h3><b>Location:</b> <span style="background-color: #ffcc99; font-size: 23px"> <%= requests.location %></span></h3>
-      <h3><b>Time:</b> <span style="background-color: #ffcc99; font-size: 23px"><%= requests.time %></span></h3>
-      <h3><b>Price:</b> <span style="background-color: #ffcc99; font-size: 23px"><%= requests.price %></span></h3>
+           <section id="services" style="padding-top: 50px; padding-bottom: 20px; float: left; margin: 1.45% 0 0 16%; border: 2px solid;">
+            <div class="container">
+              <div class="col-lg-12 text-center">
+                  
+                  <h2 class="section-heading">Current Request Details:</h2>
+                  <hr class="my-4">
+                </div>
+                <h3><b>Request ID: </b><span style="background-color: #ffcc99; font-size: 23px"> <%= requests.req_id %> </span></h3>
+                <h3><b>Owner: </b><span style="background-color: #ffcc99; font-size: 23px"> <%= requests.first_name + " " + requests.last_name %></span> </h3>
+                <h3><b>Description: </b> <span style="background-color: #ffcc99; font-size: 23px"><%= requests.service %></span></h3>
+                <h3><b>Location:</b> <span style="background-color: #ffcc99; font-size: 23px"> <%= requests.location %></span></h3>
+                <h3><b>Time:</b> <span style="background-color: #ffcc99; font-size: 23px"><%= requests.time %></span></h3>
+                <h3><b>Price:</b> <span style="background-color: #ffcc99; font-size: 23px"><%= requests.price %></span></h3>
+              </div>
+          </section>
+
+
+          <section id="services" style="padding-top: 50px; padding-bottom: 20px;padding-right: 110px; margin: 20px 20px 0 8px; border: 2px solid; float: left;">
+            <div class="container">
+              <div class="row">
+
+                <div class="col-lg-12 text-center">
+                    <h2>New Offer:</h2>
+                  <hr class="my-4">
+
+                      <form method = "post" action = "/bidMade">
+                      <fieldset>
+
+                        <div class="col-lg-12 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                           <div class="row" style="width: 600px;">
+                            <input type = "text" style="width: 295px; display: none;" name = "req_id" id = "req_id" value='<%= requests.req_id %>'>
+                           <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>New Price (QR.):</h4>
+                            <input type = "text" style="width: 295px;" name = "bid_price" id = "bid_price"  placeholder = "50">
+                           </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                           <div class="row" style="width: 600px;">
+                           <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Reason:</h4>
+                            <input type = "text" style="width: 390px;" name = "desc" id = "desc"  placeholder = "Too Far??"> 
+                           </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12 text-center">
+                          <div class="service-box mt-5 mx-auto">
+                         <button type = "submit" id="submitDetails"  name="submitDetails">Submit</button>
+                          </div>
+                        </div>
+
+                      </fieldset>
+                     </form>
+                </div>
+              </div>
+            </div>
+          </section>
     </div>
-</section>
-
-
-<section id="services" style="padding-top: 50px; padding-bottom: 20px;padding-right: 110px; margin: 20px 20px 0 8px; border: 2px solid; float: left;">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-          <h2>New Offer:</h2>
-        <hr class="my-4">
-
-    <form method = "post" action = "/bidMade">
-    <fieldset>
-
-      <div class="col-lg-12 text-center">
-        <div class="service-box mt-5 mx-auto">
-         <div class="row" style="width: 600px;">
-          <input type = "text" style="width: 295px; display: none;" name = "req_id" id = "req_id" value='<%= requests.req_id %>'>
-         <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>New Price (QR.):</h4>
-          <input type = "text" style="width: 295px;" name = "bid_price" id = "bid_price"  placeholder = "50">
-         </div>
-        </div>
-      </div>
-      <div class="col-lg-12 text-center">
-        <div class="service-box mt-5 mx-auto">
-         <div class="row" style="width: 600px;">
-         <h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;"><span style="color: red;">*</span>Reason:</h4>
-          <input type = "text" style="width: 390px;" name = "desc" id = "desc"  placeholder = "Too Far??"> 
-         </div>
-        </div>
-      </div>
-
-      <div class="col-lg-12 text-center">
-        <div class="service-box mt-5 mx-auto">
-       <button type = "submit" id="submitDetails"  name="submitDetails">Submit</button>
-        </div>
-      </div>
-
-    </fieldset>
-   </form>
-    
-  </div>
-    </div>
-  </div>
-</section>
-</section>
-</div>
-
       
     <!-- Footer -->
-   <footer class="py-5" style="opacity: 0.8;background-color: rgb(239, 95, 65);">
+   <footer class="py-5" style="position: absolute; opacity: 0.8;background-color: rgb(239, 95, 65);">
       <div class="container">
-        <p class="m-0 text-center text-white">Made with <span style="color:red;">&#10084;</span>&nbsp; &#x1F525; &nbsp; &#128166; &nbsp; in Qatar. &copy; Jaldi 2017</p>
+        <p class="m-0 text-center text-white">Made with <span style="color:red;">&#10084;</span>&nbsp; &#x1F525; &nbsp; &#128166; &nbsp; in Qatar. &copy; Qatar Help 2017</p>
       </div>
     </footer>
 
