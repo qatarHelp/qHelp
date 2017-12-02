@@ -21,9 +21,31 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+var io = require('socket.io')(server);
+
 /**
  * Listen on provided port, on all network interfaces.
  */
+
+//  io.on('connection', function(client) {  
+//     console.log('Client connected...');
+
+//     client.on('join', function(data) {
+//         console.log(data);
+//     });
+
+//     client.on('messages', function(data) {
+//            client.emit('broad', data);
+//            client.broadcast.emit('broad',data);
+//     });
+
+// });
+
+io.sockets.on('connection', function(socket) {
+  socket.on('create', function(room) {
+    socket.join(room);
+  });
+});
 
 server.listen(port);
 server.on('error', onError);

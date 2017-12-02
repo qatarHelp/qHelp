@@ -22,6 +22,7 @@ var app = express();
 app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/node_modules')); 
 //Start sessions
 app.use(session({
   secret: 'Muhsin is the 5th member.',
@@ -41,6 +42,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

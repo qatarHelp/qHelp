@@ -81,7 +81,14 @@
                 <h3 style="font-size: 16px;">Reason: <%= request.bid_description %> </h3>
                 <button>Accept</button>
                 <button>Reject</button>
-                <button>Negotiate?</button>
+                <a href="/negotiation/<%= request.req_id %>/<%= request.request_bid_id %>" class="btn btn-default" style = "border: 1px solid;">Negotiate?</a>
+           
+
+                <div id="future"></div>
+                <form id="form" id="chat_form">
+                    <input id="chat_input" type="text">
+                    <input type="submit" value="Send">
+                </form>
             </div>
         </section>
        <% }); %>

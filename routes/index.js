@@ -492,7 +492,8 @@ router.get('/viewalloffers/:id', function(req,res,next){
 		var requests = null;
 		console.log("The is id and email are: " + id + " " + email);
 
-		sql1 = `Select request.*, category.category, bid.*, serviceprovider.first_name, serviceprovider.last_name
+		sql1 = `Select request.*, category.category, bid.*, serviceprovider.first_name, serviceprovider.last_name, 
+				request_bid.request_bid_id
 				from bid, category, customer_request, request, 
 				bid_service, request_bid, serviceprovider where 
 				(customer_request.req_id = ?) and
@@ -640,6 +641,79 @@ router.get('/makeBid/:id', function(req,res,next){
 		console.log("Internal Error: " + ex);
 		return next(ex);
 	}
+});
+
+router.get('/negotiation/:id/:request_bid_id', function(req, res, next){
+	try{
+		req_id = req.params.id;
+		request_bid_id = req.params.request_bid_id;
+
+		email = req.session.email;
+
+		console.log(email);
+
+		if (req.session.email == null){
+			return res.redirect("/");
+		}
+
+		var message;
+
+		if (req.session.message != null){
+			message = req.session.message;
+		}
+		else{
+			message = '';
+		}
+
+
+		req.session.message = null;
+
+		var requests;
+
+		var s_bid;
+
+		sql1 = `Select request.*, request_bid.request_bid_id, customer.*, category.category
+				from request_bid, request, customer, customer_request, category
+				where (request.req_id = ? and request.req_id = customer_request.req_id) and 
+				(customer_request.email = ? and customer_request.email = customer.email) and
+				(request_bid.request_bid_id = 1 and request_bid.req_id = request.req_id) and
+				(request.category_id = category.category_id)`;
+
+		sql2 = `select serviceprovider.*, bid.*, request_bid.request_bid_id 
+				from serviceprovider, bid_service, bid, request_bid
+				where (request_bid.request_bid_id = ? and request_bid.bid_id = bid.bid_id) and
+				(bid_service.bid_id = bid.bid_id and bid_service.service_email = serviceprovider.email)`;
+
+		db.all(sql1, [req_id, email], function(err, rows){
+			if(err){
+				return console.log("Negotiation Error: " + err.message);
+			}
+
+			console.log("got cust req details;");
+
+			requests = rows[0];
+
+			db.all(sql2, [request_bid_id], function(err, rowss){
+				if(err){
+					return console.log("Negotiation2 Error: " + err.message);
+				}
+				console.log("got bid req details");
+
+				s_bid = rowss[0];
+
+				console.log(requests);
+				console.log(s_bid);
+				res.render('negotiation.ejs', {requests: requests, serbid: s_bid, message:message});
+			});
+
+		});
+		
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+
 });
 
 router.post('/bidMade', function(req, res, next){
