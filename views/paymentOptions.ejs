@@ -8,7 +8,7 @@
     <meta name="description" content="Redefining Convenience">
     <meta name="author" content="Maruf">
 
-    <title>Make A Bid</title>
+    <title>Transaction Page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -52,59 +52,29 @@
       </div>
     </nav>
 
-    <section id="services" style="height:95%; padding-top: 30px; padding-bottom: 20px;margin-bottom: 20px;">
+    <section id="services" style="text-align: center; height:95%; padding-top: 30px; padding-bottom: 20px;margin: 10px 10px 20px 40px;">
       <div class="col-lg-12 text-center">
-        <h2 class="section-heading">View Offers</h2>
+        <h2 class="section-heading"><span style="color: red;">*</span>Select Your Payment Options</h2>
         <hr class="my-4">
       </div>
-      <% if (message != '') { %>
-        <p style="color: red;">*<%= message %></p>
-      <% } %>
+      <form method="POST" action="/paymentMade">
+        <span><input type="radio" name="cash"><h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Cash</h4></span>
+
+        <span><input type="radio" name="paypal"><h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">PayPal</h4></span>
+
+        <span><input type="radio" name="c_card"><h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">MasterCard/Visa</h4></span>
+
+        <span><input type="radio" name="bit"><h4 class="mb-3" style="padding-top: 5px;padding-right: 15px;">Bitcoin/Etherium</h4></span>
+
+        <input type="text" style="display: none;" name="req_id" id = "req_id" value='<%= id %>'>
+
+
+        <button type="submit" class="btn btn-light1 btn-xl js-scroll-trigger" name = "submitDetails">Proceed</button>
+
+        
+
+      </form>
     
-
-    <% if (requests != null) { %>
-      <% requests.forEach(function(request){ %>
-        <section id="services" style="width: 400px; padding-top: 10px; padding-bottom: 10px; border: 2px solid; float: left; margin: 0 0 5px 50px;">
-          <div class="container">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading" style="font-size: 19px;">Offer By: <%= request.first_name + " " + request.last_name %> </h2>
-                <hr style="color: black;">
-              </div>
-                <h3 style="font-size: 16px;">Request ID:  <%= request.req_id %> </h3>
-                <h3 style="font-size: 16px;">Description: <%= request.service %> </h3>
-                <h3 style="font-size: 16px;">Asking Price: <%= request.price %> </h3>
-                <h3 style="font-size: 16px;">Location: <%= request.location %> </h3>
-                <h3 style="font-size: 16px;">Time: <%= request.time %> </h3>
-                <h3 style="font-size: 16px;">Category: <%= request.category %></h3>
-                <br>
-                <h3 style="font-size: 16px;">Offered Price: <%= request.bid_price %> </h3>
-                <h3 style="font-size: 16px;">Reason: <%= request.bid_description %> </h3>
-
-
-                <form style="display: none">
-                  <fieldset>
-                    <input type = "text" style="width: 295px; display: none;" name = "new_price" id = "new_price" value='<%= request.bid_price %>'>
-                  </fieldset>
-                </form>
-
-
-                <a href="/acceptOffer/<%= request.req_id %>/<%= request.request_bid_id %>/<%= request.bid_price %>" class="btn btn-default" style = "border: 1px solid;">Accept</a>
-                <a href="/rejectOffer/<%= request.request_bid_id %>" class="btn btn-default" style = "border: 1px solid;">Reject</a>
-                <a href="/negotiation/<%= request.req_id %>/<%= request.request_bid_id %>" class="btn btn-default" style = "border: 1px solid; margin-bottom:5px;">Negotiate?</a>
-           
-
-                <div id="future"></div>
-                <form id="form" id="chat_form">
-                    <input id="chat_input" type="text">
-                    <input type="submit" value="Send">
-                </form>
-            </div>
-        </section>
-       <% }); %>
-    <% } else{ %>
-      <p style="color: red; margin: 10px 0 0 40px">*Sorry, no offers have been made on this request so far.</p>
-    <% } %>
-
     </section>
     </div>
       

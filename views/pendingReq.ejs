@@ -88,21 +88,61 @@
                       <!-- This is where the requests are rendered !-->
                         <tbody>
                           <% requests.forEach(function(request){ %>
-                            <tr>
-                              <td><%= request.req_id %></td>
-                              <td><%= request.service %></td>
-                              <td><%= request.location %></td>
-                              <td><%= request.time %></td>
-                              <td><%= request.price %></td>
-                              <td><%= request.category %></td>
-                              <% if (request.req_status == 0) { %>
+
+                            <% if (request.req_status == 0) { %>
+                              <tr>
+                                <td><%= request.req_id %></td>
+                                <td><%= request.service %></td>
+                                <td><%= request.location %></td>
+                                <td><%= request.time %></td>
+                                <td><%= request.price %></td>
+                                <td><%= request.category %></td>
                                 <td>Pending</td>
-                              <% } if (request.req_status == 1) { %>
-                                <td>In Progress</td>
-                              <% } %>
-                              <td><a href="/viewalloffers/<%= request.req_id %>">View All Offers</a></td>
-                              <td><a href="/pendingreq/<%= request.req_id %>">&#10007;</a></td>
-                            </tr>
+                                
+                                <td><a href="/viewalloffers/<%= request.req_id %>">View All Offers</a></td>
+                                <td><a href="/pendingreq/<%= request.req_id %>">&#10007;</a></td>
+                              </tr>
+                            <% } %>
+                          <% }); %>
+                        </tbody>
+                      </table>
+
+                      <h2 class="section-heading">In-Progress Requests</h2>
+                      <br>
+                      <table class="table table-hover" id="myTable" width="100%">
+
+                        <thead>
+                          <tr>
+                            <th style="width: 90px;" onclick="sortTable(0)">Req # &#8693;</th>
+                            <th onclick="sortTable(1)">Request Name &#8693;</th> 
+                            <th onclick="sortTable(2)">Address &#8693;</th>
+                            <th onclick="sortTable(3)">Time &#8693;</th> 
+                            <th style="width: 110px;" onclick="sortTable(4)">Price QR &#8693;</th>
+                            <th onclick="sortTable(5)">Category &#8693;</th> 
+                            <th onclick="sortTable(6)">Status &#8693;</th> 
+                            <th>&#10003;</th>
+                            
+                            <th colspan="8"></th>
+                          </tr>
+                        </thead>
+
+                      <!-- This is where the requests are rendered !-->
+                        <tbody>
+                          <% requests.forEach(function(request){ %>
+                            <% if (request.req_status == 1) { %>
+                              <tr>
+                                <td><%= request.req_id %></td>
+                                <td><%= request.service %></td>
+                                <td><%= request.location %></td>
+                                <td><%= request.time %></td>
+                                <td><%= request.price %></td>
+                                <td><%= request.category %></td>
+                                
+                                  <td>In Progress</td>
+                                
+                                <td><a href="/makePayment/<%= request.req_id %>">Make Payment</a></td>
+                              </tr>
+                            <% } %>
                           <% }); %>
                         </tbody>
                       </table>

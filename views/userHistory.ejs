@@ -8,7 +8,7 @@
     <meta name="description" content="Redefining Convenience">
     <meta name="author" content="Maruf">
 
-    <title>All Categories</title>
+    <title>Past Requests</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -58,34 +58,44 @@
                         </div>
 
 
-                      <input type="text" id="search" style="float: right" placeholder="&#x1F50D;   Type to search..." />
+                    <input type="text" id="search" style="float: right" placeholder="&#x1F50D;   Type to search..." />
                       <table class="table table-hover" id="myTable" width="100%">
+                        <% if (message != '') { %>
+                            <p style="color: red;">*<%= message %></p>
+                        <% } %>
+
                         <thead>
                           <tr>
-                            <th onclick="sortTable(0)">Request Name &#8693;</th>
-                            <th onclick="sortTable(1)">Address &#8693;</th>
-                            <th onclick="sortTable(2)">Time &#8693;</th>
-                            <th onclick="sortTable(3)">Price &#8693;</th>
-                            <th onclick="sortTable(4)">Completed By &#8693;</th>
+                            <th style="width: 90px;" onclick="sortTable(0)">Req # &#8693;</th>
+                            <th onclick="sortTable(1)">Request Name &#8693;</th> 
+                            <th onclick="sortTable(2)">Address &#8693;</th>
+                            <th onclick="sortTable(3)">Time &#8693;</th> 
+                            <th style="width: 110px;" onclick="sortTable(4)">Price QR &#8693;</th>
+                            <th onclick="sortTable(5)">Category &#8693;</th> 
+                            <th onclick="sortTable(6)">Status &#8693;</th> 
+                           
+                            
+                            <th colspan="7"></th>
                           </tr>
                         </thead>
 
                       <!-- This is where the requests are rendered !-->
                         <tbody>
-                            <tr>
-                              <td>Ice cream</td>
-                              <td>CMU 1202</td>
-                              <td>Before 1:00 am</td>
-                              <td>50.0 QR</td>
-                              <td>Link</td>
-                            </tr>
-                            <tr>
-                              <td>Coffee</td>
-                              <td>Janoubi</td>
-                              <td>Before 9:00 am</td>
-                              <td>25.0 QR</td>
-                              <td>Link</td>
-                            </tr>
+                          <% requests.forEach(function(request){ %>
+
+                            <% if (request.req_status == 2) { %>
+                              <tr>
+                                <td><%= request.req_id %></td>
+                                <td><%= request.service %></td>
+                                <td><%= request.location %></td>
+                                <td><%= request.time %></td>
+                                <td><%= request.price %></td>
+                                <td><%= request.category %></td>
+                                <td>Completed</td>
+                        
+                              </tr>
+                            <% } %>
+                          <% }); %>
                         </tbody>
                       </table>
 

@@ -133,7 +133,9 @@ db.serialize(function(){
 
   db.run(`CREATE TABLE IF NOT EXISTS trans (
 		trans_id INTEGER UNIQUE NOT NULL PRIMARY KEY AUTOINCREMENT,
-    trans_complete BOOLEAN NOT NULL
+    trans_complete BOOLEAN NOT NULL,
+    request_bid_id INTEGER NOT NULL,
+    FOREIGN KEY (request_bid_id) REFERENCES request_bid(request_bid_id)
     )`, [], function(err){
       if (err){return console.log(err.message);}
       console.log("trans Table created successfully");}

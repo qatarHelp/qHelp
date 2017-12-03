@@ -8,7 +8,7 @@
     <meta name="description" content="Redefining Convenience">
     <meta name="author" content="Maruf">
 
-    <title>All Categories</title>
+    <title>Pending Bids</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -60,6 +60,7 @@
                         </div>
                       
                       <input type="text" id="search" style="float: right" placeholder="&#x1F50D;   Type to search..." />
+                      
                       <table class="table table-hover" id="myTable" width="100%">
                         <% if (message != '') { %>
                             <p style="color: red;">*<%= message %></p>
@@ -86,6 +87,7 @@
                       <!-- This is where the requests are rendered !-->
                         <tbody>
                           <% requests.forEach(function(request){ %>
+                            <% if (request.bid_status == 0 or request.bid_status == 2) { %>
                             <tr>
                               <td><%= request.bid_id %></td>
                               <td><%= request.first_name + " " + request.last_name %></td>
@@ -98,12 +100,58 @@
                               <td><%= request.category %></td>
                               <% if (request.bid_status == 0) { %>
                                 <td>Pending</td>
-                              <% } if (request.bid_status == 1) { %>
-                                <td>In Progress</td>
+                              <% } %>
+                              <% if (request.bid_status == 2) { %>
+                                <td>Unavailable</td>
                               <% } %>
                               <td><a href="#">View All Offers</a></td>
                               <td><a href="#">&#10007;</a></td>
                             </tr>
+                            <% } %>
+                          <% }); %>
+                        </tbody>
+                      </table>
+
+                      <table class="table table-hover" id="myTable" width="100%">
+                        <thead>
+                          <tr>
+                            <th onclick="sortTable(0)">Bid ID &#8693;</th>
+                            <th onclick="sortTable(1)">Customer Name &#8693;</th> 
+                            <th onclick="sortTable(2)">Bid Description&#8693;</th>
+                            <th onclick="sortTable(3)">Request Description &#8693;</th>
+                            <th onclick="sortTable(4)">Address &#8693;</th> 
+                            <th onclick="sortTable(5)">Time &#8693;</th>  
+                            <th onclick="sortTable(6)">Bid Price (QR) &#8693;</th>
+                            <th onclick="sortTable(7)">Customer Price (QR) &#8693;</th> 
+                            <th onclick="sortTable(8)">Category &#8693;</th> 
+                            <th onclick="sortTable(9)">Status &#8693;</th>
+                            <th>&#10003;</th>
+                            <th>&#10007;</th> 
+                            <th colspan="12"></th>
+                          </tr>
+                        </thead>
+
+                      <!-- This is where the requests are rendered !-->
+                        <tbody>
+                          <% requests.forEach(function(request){ %>
+                            <% if (request.bid_status == 1) { %>
+                              <tr>
+                                <td><%= request.bid_id %></td>
+                                <td><%= request.first_name + " " + request.last_name %></td>
+                                <td><%= request.bid_description %></td>
+                                <td><%= request.service %></td>
+                                <td><%= request.location %></td>
+                                <td><%= request.time %></td>
+                                <td><%= request.bid_price %></td>
+                                <td><%= request.price %></td>
+                                <td><%= request.category %></td>
+                                
+                                  <td>In-progress Requests</td>
+                                
+                                <td><a href="#">View All Offers</a></td>
+                                <td><a href="#">&#10007;</a></td>
+                              </tr>
+                            <% } %>
                           <% }); %>
                         </tbody>
                       </table>

@@ -643,6 +643,112 @@ router.get('/makeBid/:id', function(req,res,next){
 	}
 });
 
+router.get('/makePayment/:id', function(req, res, next){
+	req_id = req.params.id;
+
+	res.render('paymentOptions.ejs', {id: req_id});
+});
+
+router.post('/paymentMade', function(req, res, next){
+	try{
+
+		var req_id = req.body.req_id;
+
+		sql1 = `UPDATE request SET req_status = 2 WHERE req_id = ?`;
+
+		console.log(req_id);
+
+		db.run(sql1, [req_id], function(err){
+			if(err){
+				return console.log("Payment Made Error: " + err.message);
+			}
+			console.log("Payment made successfully");
+			res.redirect('/pendingreq');
+		});
+
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+});
+
+router.get('/acceptOffer/:id/:request_bid_id/:bid_price', function(req, res, next){
+	try{
+
+		req_id = req.params.id;
+		request_bid_id = req.params.request_bid_id;
+
+		email = req.session.email;
+
+		console.log(email);
+
+		if (req.session.email == null){
+			return res.redirect("/");
+		}
+		
+		new_price = req.params.bid_price;
+
+		console.log("price is:" + new_price + " email and req_id are: " + email + " " + req_id);
+
+		sql1 = `UPDATE request SET price = ?, req_status = 1 WHERE req_id = ?`;
+
+		sql2 = `UPDATE request_bid SET customer_accepted = 'True' WHERE request_bid_id = ?`; 
+
+		sql3 = `Select bid.* from bid, request_bid where 
+				request_bid.request_bid_id = ? and bid.bid_id = request_bid.bid_id`;
+
+		sql4 = `UPDATE bid SET bid_status = 1 WHERE bid_id = ?`;
+
+		db.serialize(function(err){
+
+			db.run(sql1, [new_price, req_id], function(err){
+				if(err){
+					return console.log("Accept Offer Error: " + err.message);
+				}
+
+				console.log('Offer Request Accepted Successfully!');
+			});
+
+			db.run(sql2, [request_bid_id], function(err){
+				if(err){
+					return console.log("Accept Offer Error: " + err.message);
+				}
+
+				console.log('Offer Request_Bid Customer Accepted Changed Successfully!');
+			});
+
+			db.all(sql3, [request_bid_id], function(err, rows){
+				if(err){
+					return console.log("Accept Offer Error: " + err.message);
+				}
+
+				data = rows[0];
+
+				db.run(sql4, [data.bid_id], function(err){
+					if(err){
+						return console.log("Accept Offer Error: " + err.message);
+					}
+
+					console.log("Bid status successfully changed in Accept.");
+
+					
+					req.session.message = "Offer Accepted Successfully.";
+					res.redirect('/pendingreq');
+				});
+
+			});
+
+		});
+		
+		
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+});
+
 router.get('/negotiation/:id/:request_bid_id', function(req, res, next){
 	try{
 		req_id = req.params.id;
@@ -676,7 +782,7 @@ router.get('/negotiation/:id/:request_bid_id', function(req, res, next){
 				from request_bid, request, customer, customer_request, category
 				where (request.req_id = ? and request.req_id = customer_request.req_id) and 
 				(customer_request.email = ? and customer_request.email = customer.email) and
-				(request_bid.request_bid_id = 1 and request_bid.req_id = request.req_id) and
+				(request_bid.request_bid_id = ? and request_bid.req_id = request.req_id) and
 				(request.category_id = category.category_id)`;
 
 		sql2 = `select serviceprovider.*, bid.*, request_bid.request_bid_id 
@@ -684,7 +790,7 @@ router.get('/negotiation/:id/:request_bid_id', function(req, res, next){
 				where (request_bid.request_bid_id = ? and request_bid.bid_id = bid.bid_id) and
 				(bid_service.bid_id = bid.bid_id and bid_service.service_email = serviceprovider.email)`;
 
-		db.all(sql1, [req_id, email], function(err, rows){
+		db.all(sql1, [req_id, email, request_bid_id], function(err, rows){
 			if(err){
 				return console.log("Negotiation Error: " + err.message);
 			}
@@ -692,6 +798,7 @@ router.get('/negotiation/:id/:request_bid_id', function(req, res, next){
 			console.log("got cust req details;");
 
 			requests = rows[0];
+			console.log(rows[0]);
 
 			db.all(sql2, [request_bid_id], function(err, rowss){
 				if(err){
@@ -747,6 +854,8 @@ router.post('/bidMade', function(req, res, next){
 
 		let sql3 = `select seq from sqlite_sequence where name="bid"`;
 
+
+
 		db.serialize(function(err){
 			db.run (sql, [bid_price, bid_description, bid_status], function(err){
 				if (err){
@@ -774,7 +883,7 @@ router.post('/bidMade', function(req, res, next){
 						console.log("Successfully added in bid_service");
 					});
 
-					db.run(sql4, [false, false, req_id, last_id], function(err){
+					db.run(sql4, [false, true, req_id, last_id], function(err){
 						if (err){
 							console.log(last_id + " " + req_id);
 							return console.log("Error while adding in request_bid table: " + err.message);
@@ -799,7 +908,51 @@ router.post('/bidMade', function(req, res, next){
 
 
 router.get('/userhistory', function(req,res,next){
-	res.render('userHistory.ejs',{'root': __dirname + '/../views'});
+	try{
+		var message = '';
+
+		var message2 = req.session.message;
+		if (message2 != null){
+			message = message2;
+		}
+		else{
+			message = '';
+		}
+
+		req.session.message = null;
+
+		console.log("Pen request");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.email;
+		console.log("EMAIL IN User history REQ: " + email);
+		if (email == null) res.redirect('/');
+
+		let sql = `Select request.*, category.category from category, customer_request, request where 
+					(customer_request.req_id = request.req_id and customer_request.email = ?) 
+					and (request.req_status = 2) and (category.category_id = request.category_id)`;
+
+		db.all(sql, [email], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			
+			console.log(rows);
+			res.render('userHistory.ejs', {message: message, requests: requests});
+
+		})
+
+
+		//res.render('pendingReq.ejs',{'root': __dirname + '/../views'});
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
+
 });
 
 //categories
