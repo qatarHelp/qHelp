@@ -656,15 +656,37 @@ router.post('/paymentMade', function(req, res, next){
 
 		sql1 = `UPDATE request SET req_status = 2 WHERE req_id = ?`;
 
+		sql2 = `select bid.* from request, request_bid, bid where 
+				request.req_id = ? and request.req_id = request_bid.req_id and request_bid.bid_id = bid.bid_id`;
+
+		sql3 = `UPDATE bid SET bid_status = 3 WHERE bid_id = ?`;
+
 		console.log(req_id);
 
-		db.run(sql1, [req_id], function(err){
-			if(err){
-				return console.log("Payment Made Error: " + err.message);
-			}
-			console.log("Payment made successfully");
+
+		db.serialize(function(err){
+			db.run(sql1, [req_id], function(err){
+				if(err){
+					return console.log("Payment Made Error: " + err.message);
+				}
+				console.log("Payment made successfully");
+				
+			});
+			db.all(sql2, [req_id], function(err, rows){
+				if(err){
+					return console.log("Payment Made Error: " + err.message);
+				}
+
+				db.run(sql3, [rows[0].bid_id], function(err){
+					if(err){
+						return console.log("Payment Made Error: " + err.message);
+					};
+					console.log("Successfully changed bid status in payment");
+				})
+			});
 			res.redirect('/pendingreq');
 		});
+		
 
 	}
 	catch(ex){
@@ -1011,7 +1033,55 @@ router.get('/pendingbids', function(req,res,next){
 });
 
 router.get('/businesshistory', function(req,res,next){
-	res.render('businessHistory.ejs',{'root': __dirname + '/../views'});
+
+	try{
+		var message = '';
+
+		var message2 = req.session.message;
+		if (message2 != null){
+			message = message2;
+		}
+		else{
+			message = '';
+		}
+
+		req.session.message = null;
+
+		console.log("Pen request");
+		// console.log(user);
+		// console.log(user.first_name + ' ' + user.last_name + ' Yoooooooooooo');
+		var requests = null;
+		var email = req.session.bussEmail;
+		console.log("EMAIL IN PEN BID: " + email);
+		if (email == null) res.redirect('/');
+
+		let sql = `Select request.*, category.category, bid.*, customer.first_name, customer.last_name
+					from bid, category, customer_request, request, 
+					bid_service, request_bid, serviceprovider, customer where 
+					(bid_service.bid_id = bid.bid_id and bid_service.service_email = ?) and
+					(serviceprovider.email = ?) and
+					(request_bid.bid_id = bid.bid_id and request_bid.req_id = request.req_id) and
+					(customer_request.req_id = request.req_id and customer_request.email = customer.email) 
+					and (request.req_status = 0 OR 1) and (category.category_id = request.category_id)`;
+
+		db.all(sql, [email, email], function(err, rows){
+			if(err){
+				return console.log(err);
+			}
+
+			requests = rows;
+			console.log(rows);
+			res.render('businessHistory.ejs', {message: message, requests: requests});
+
+		})
+
+
+		//res.render('pendingReq.ejs',{'root': __dirname + '/../views'});
+	}
+	catch(ex){
+		console.log("Internal Error: " + ex);
+		return next(ex);
+	}
 });
 
 router.get('/allcategories', function(req,res,next){

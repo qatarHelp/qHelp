@@ -87,7 +87,7 @@
                       <!-- This is where the requests are rendered !-->
                         <tbody>
                           <% requests.forEach(function(request){ %>
-                            <% if (request.bid_status == 0 or request.bid_status == 2) { %>
+                            <% if (request.bid_status == 0) { %>
                             <tr>
                               <td><%= request.bid_id %></td>
                               <td><%= request.first_name + " " + request.last_name %></td>
@@ -98,12 +98,26 @@
                               <td><%= request.bid_price %></td>
                               <td><%= request.price %></td>
                               <td><%= request.category %></td>
-                              <% if (request.bid_status == 0) { %>
+                              
                                 <td>Pending</td>
-                              <% } %>
-                              <% if (request.bid_status == 2) { %>
+                              <td><a href="#">View All Offers</a></td>
+                              <td><a href="#">&#10007;</a></td>
+                            </tr>
+                            <% } %>
+
+                            <% if (request.bid_status == 2) { %>
+                            <tr>
+                              <td><%= request.bid_id %></td>
+                              <td><%= request.first_name + " " + request.last_name %></td>
+                              <td><%= request.bid_description %></td>
+                              <td><%= request.service %></td>
+                              <td><%= request.location %></td>
+                              <td><%= request.time %></td>
+                              <td><%= request.bid_price %></td>
+                              <td><%= request.price %></td>
+                              <td><%= request.category %></td>
+                              
                                 <td>Unavailable</td>
-                              <% } %>
                               <td><a href="#">View All Offers</a></td>
                               <td><a href="#">&#10007;</a></td>
                             </tr>
